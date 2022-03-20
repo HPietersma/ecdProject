@@ -2,8 +2,21 @@
     <v-container fill-height class="test1">
         <v-row justify="center" align="center" class="test">
             <v-col cols="3" align="center">
-                <v-text-field label="gebruikersnaam"/>
-                <v-text-field label="wachtwoord"/>
+                <v-form>
+                    <v-text-field 
+                        label="gebruikersnaam"
+                        prepend-icon="mdi-account-circle"
+                        class="mr-5"
+                    />
+                    <v-text-field 
+                        label="wachtwoord"
+                        :type="showPassword ? 'text' : 'password'"
+                        prepend-icon="mdi-lock"
+                        :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                        @click:append="showPassword = !showPassword"
+                        class="test"
+                    />  
+                </v-form>
                 <v-btn 
                     elevation="2" 
                     block
@@ -24,12 +37,13 @@
 
         data() {
             return {
-                test: false,
+                showPassword: false,
             }
         },
 
         created() {
-            this.$store.dispatch("fetchUsers")
+            this.$store.dispatch("fetchUsers");
+            console.log("test");
         },
 
         computed: {
@@ -46,5 +60,7 @@
 </script>
 
 <style scoped>
-
+    .test {
+        padding-left: 0px;
+    }
 </style>
