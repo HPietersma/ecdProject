@@ -3,23 +3,31 @@
         <v-row justify="center">
             <v-col 
                 xs="12" 
-                sm="8" 
+                sm="7" 
                 md="6" 
-                lg="5" 
-                xl="5"
+                lg="4" 
+                xl="3"
             >
                 <v-card :elevation="mobileViewElevation" :class="mobileViewPadding">
-                    <v-form>
+                    <v-form
+                        v-model="valid"
+                    >
                         <v-text-field 
                             label="gebruikersnaam"
+                            v-model="loginData.username"
                             prepend-icon="mdi-account-circle"
+                            :rules="nameRules"
+                            required
                         />
                         <v-text-field 
                             label="wachtwoord"
+                            v-model="loginData.password"
                             :type="showPassword ? 'text' : 'password'"
                             prepend-icon="mdi-lock"
                             :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                            :rules="nameRules"
                             @click:append="showPassword = !showPassword"
+                            required
                             class="test"
                         />  
                     </v-form>
@@ -28,7 +36,7 @@
                         block
                         color="purple lighten-1"
                         class="white--text"
-                        v-on:click="test()"
+                        v-on:click="login()"
                     >
                         inloggen
                     </v-btn>
@@ -45,6 +53,11 @@
         data() {
             return {
                 showPassword: false,
+                username: "",
+                password: "",
+                valid: false,
+                nameRules: [ v => !!v],
+                loginData: {username: "", password: ""}
             }
         },
 
@@ -73,7 +86,11 @@
         methods: {
             test() {
                 this.$router.push({path: "dashboard"});
+            },
+            login() {
+                this.$store.dispatch("sentLoginData", this.loginData)
             }
+
         },
 
     }
