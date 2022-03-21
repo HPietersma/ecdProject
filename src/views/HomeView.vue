@@ -1,7 +1,7 @@
 <template>
-  <div class="home">
+  <v-div class="home">
     <LogIn/>
-  </div>
+  </v-div>
 </template>
 
 <script>
