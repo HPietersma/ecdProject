@@ -4,7 +4,7 @@ import axios from 'axios'
 
 Vue.use(Vuex)
 
-let address = "http://localhost:81/ecd/src/php/";
+let address = "http://localhost:80/ecd/src/php/";
 
 export default new Vuex.Store({
   state: {
@@ -28,10 +28,10 @@ export default new Vuex.Store({
 
           commit("setUsers", response.data);
         })
-        .catch (
-          console.log("error in fetchUsers")
-        )
-    }
+        .catch ( err => { 
+          console.log(err)
+        })
+    },
   },
   modules: {
   }

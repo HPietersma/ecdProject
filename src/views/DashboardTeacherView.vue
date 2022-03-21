@@ -1,25 +1,22 @@
 <template>
-  <div class="home">
-    <LogIn/>
+  <div>
+      <h1>Dashboard Docent</h1>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
 //import HelloWorld from '@/components/HelloWorld.vue'
-import LogIn from '@/components/LogIn.vue'
 
 
 export default {
-  name: 'HomeView',
+  name: 'DashboardTeacher',
   components: {
-    LogIn
+    
   }
 }
 </script>
 
 <style scoped>
-  .home {
-    height: 100%;
-  }
+  
 </style>
