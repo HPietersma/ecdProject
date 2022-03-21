@@ -32,6 +32,20 @@ export default new Vuex.Store({
           console.log(err)
         })
     },
+    sentLoginData({ commit }, loginData) {
+      axios.post(address + "login.php?action=test2", loginData
+        //{"username" : loginData.username,
+        //"password" : loginData.password}
+      ) 
+        .then (response => {
+          //commit("setLogin", response.data);
+          console.log(commit);
+          console.log(response);
+        })
+        .catch (err => {
+          console.log(err);
+        })
+    }
   },
   modules: {
   }
