@@ -13,10 +13,10 @@
                         v-model="valid"
                     >
                         <v-text-field 
-                            label="gebruikersnaam"
-                            v-model="loginData.username"
-                            prepend-icon="mdi-account-circle"
-                            :rules="nameRules"
+                            label="e-mail"
+                            v-model="loginData.email"
+                            prepend-icon="mdi-at"
+                            :rules="emailRules"
                             required
                         />
                         <v-text-field 
@@ -52,11 +52,15 @@
         data() {
             return {
                 showPassword: false,
-                username: "",
+                email: "",
                 password: "",
                 valid: false,
+                emailRules: [
+                    v => !!v,
+                    v => /.+@.+\..+/.test(v) || 'niet geldige e-mail',
+                ],
                 nameRules: [ v => !!v],
-                loginData: {username: "", password: ""}
+                loginData: {email: "", password: ""}
             }
         },
 
@@ -87,7 +91,7 @@
                 this.$router.push({path: "dashboard"});
             },
             login() {
-                this.$store.dispatch("login", this.loginData)
+                this.$store.dispatch("login", this.loginData);
             }
 
         },

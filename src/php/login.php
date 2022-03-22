@@ -5,6 +5,8 @@ session_start();
 error_reporting(E_ALL & ~E_NOTICE);        // schakel notices uit (zijn niet interessant maar mollen de JSON output wel)
 header('Access-Control-Allow-Origin: *');  // kan ook van andere servers dan alleen localhost benaderd worden
 header('Content-Type: application/json');  // geef aan dat deze file een JSON format teruggeeft
+header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
+header('Access-Control-Allow-Methods: GET, POST, PUT');
 
 // include "db.php"; // hierin wordt de database connection geset in $con (zie voorbeeld hieronder)
 // onderstaande db connectie via MySQLi kan de inhoud zijn van db.php (hier in apart bestand, want er staan wachtwoorden in)
@@ -41,34 +43,45 @@ if( $_GET["action"] == "login" ) {
 
     //$username = $_POST["gebruikersnaam"];
     //$password = $_POST["wachtwoord"];
-    $username = $data['gebruikersnaam'];
-    $password = $data['wachtwoord'];
+    $email = $data['email'];
+    $password = $data['password'];
 
-    $sql = "SELECT *
-            FROM `users` 
-            WHERE   gebruikersnaam = '$username' AND
-                    wachtwoord = '$password'
-            ";
+    // $sql = "SELECT *
+    //         FROM `users` 
+    //         WHERE   gebruikersnaam = '$username' AND
+    //                 wachtwoord = '$password'
+    //         ";
 
-    $res = mysqli_query($con, $sql);   
-    if($res) {
+    // $res = mysqli_query($con, $sql);   
+    // if($res) {
 
-        $_SESSION['logged_in'] = true;
+    //     $_SESSION['logged_in'] = true;
 
-        while($rij = mysqli_fetch_assoc($res)) {
-            $_SESSION['username'] = $rij['gebruikersnaam'];
-            $_SESSION['user_id'] = $rij['id'];
-        }
+    //     while($rij = mysqli_fetch_assoc($res)) {
+    //         $_SESSION['username'] = $rij['gebruikersnaam'];
+    //         $_SESSION['user_id'] = $rij['id'];
+    //     }
 
-        $json = array(
-            "data"=>"login succes"
-        );
-    } else {
-        $json = array(
-            "data"=>"inlog gegevens kloppen niet"
-        );
-    }
+    //     $json = array(
+    //         "data"=>"login succes"
+    //     );
+    // } else {
+    //     $json = array(
+    //         "data"=>"inlog gegevens kloppen niet"
+    //     );
+    // }
     
+    // $json = array(
+    //     "username" => $username,
+    //     "password" => $password
+    // );
+
+    $json = array (
+        "gebruikersnaam"=>$email,
+        "wachtwoord"=>$password
+    );
+
+    echo json_encode($json);
 }
 
 if( $_GET["action"] == "test" ) {
