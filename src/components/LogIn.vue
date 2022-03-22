@@ -28,7 +28,6 @@
                             :rules="nameRules"
                             @click:append="showPassword = !showPassword"
                             required
-                            class="test"
                         />  
                     </v-form>
                     <v-btn 
@@ -88,7 +87,7 @@
                 this.$router.push({path: "dashboard"});
             },
             login() {
-                this.$store.dispatch("sentLoginData", this.loginData)
+                this.$store.dispatch("login", this.loginData)
             }
 
         },

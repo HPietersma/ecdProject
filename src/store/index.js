@@ -4,7 +4,8 @@ import axios from 'axios'
 
 Vue.use(Vuex)
 
-let address = "http://localhost:80/ecd/src/php/";
+//let address = "http://localhost:80/ecd/src/php/";
+axios.defaults.baseURL = "http://localhost:80/ecd/src/php/"
 
 export default new Vuex.Store({
   state: {
@@ -22,7 +23,7 @@ export default new Vuex.Store({
   },
   actions: {
     fetchUsers({ commit }) {
-      axios.get(address + "login.php?action=test")
+      axios.get("login.php?action=test")
         .then (response => {
           console.log(response.data);
 
@@ -32,8 +33,8 @@ export default new Vuex.Store({
           console.log(err)
         })
     },
-    sentLoginData({ commit }, loginData) {
-      axios.post(address + "login.php?action=test2", loginData
+    login({ commit }, loginData) {
+      axios.post("login.php?action=test2", loginData
         //{"username" : loginData.username,
         //"password" : loginData.password}
       ) 
