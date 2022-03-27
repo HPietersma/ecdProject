@@ -4,12 +4,13 @@ import axios from 'axios'
 
 Vue.use(Vuex)
 
-//let address = "http://localhost:80/htdocs/ecdProject/src/php/";
-axios.defaults.baseURL = "http://localhost:80/htdocs/ecdProject/src/php/"
+//axios.defaults.baseURL = "http://localhost:80/htdocs/ecdProject/src/php/"
+axios.defaults.baseURL = "http://localhost:81/ecd/src/php/"
 
 export default new Vuex.Store({
   state: {
     users: [],
+    loginData: null,
   },
   getters: {
     getUsers: state => {
@@ -19,6 +20,9 @@ export default new Vuex.Store({
   mutations: {
     setUsers(state, users) {
       state.users = users;
+    },
+    setLoginData(state, loginData) {
+      state.loginData = loginData;
     },
   },
   actions: {
@@ -33,12 +37,17 @@ export default new Vuex.Store({
           console.log(err)
         })
     },
-    async login({ commit }, loginData) {
+    login({ commit }, loginData) {
       axios.post("login.php?action=login", loginData
       ) 
         .then (response => {
           console.log(response.data);
-          console.log(commit);
+          if (response.data.succes === true) {
+            commit("setLoginData", response.data.data);
+          }
+          else {
+            window.alert(response.data.data);
+          }
         })
         .catch (err => {
           console.log(err);

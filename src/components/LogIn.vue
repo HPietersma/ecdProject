@@ -42,6 +42,7 @@
                 </v-card>
             </v-col>
         </v-row>
+        {{loggedInData}}
     </v-container>
 </template>
 
@@ -65,7 +66,7 @@
         },
 
         created() {
-            this.$store.dispatch("fetchUsers");
+            //this.$store.dispatch("fetchUsers");
         },
 
         computed: {
@@ -83,15 +84,23 @@
                     case "xs": return "0"
                     default : return "3"
                 }
+            },
+            loggedInData() {
+                return this.$store.state.loginData;
+            },
+        },
+        watch: {
+            loggedInData() {
+                this.$router.push({path: "dashboard"});
             }
         },
-
         methods: {
             test() {
                 this.$router.push({path: "dashboard"});
             },
             login() {
                 this.$store.dispatch("login", this.loginData);
+                //this.$router.push({path: "dashboard"});                
             }
 
         },

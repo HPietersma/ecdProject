@@ -1,18 +1,16 @@
 <template>
-  <div>
-      <h1>Dashboard Docent</h1>
-  </div>
+  <DashboardRouter/>
 </template>
 
 <script>
 // @ is an alias to /src
-//import HelloWorld from '@/components/HelloWorld.vue'
+import DashboardRouter from '@/components/DashboardRouter.vue'
 
 
 export default {
   name: 'DashboardTeacher',
   components: {
-    
+    DashboardRouter
   }
 }
 </script>

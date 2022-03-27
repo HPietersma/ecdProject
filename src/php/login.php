@@ -40,47 +40,71 @@ if( $_GET["action"] == "login" ) {
     $request_body = file_get_contents('php://input');
     $data = json_decode($request_body, true);
 
+    $email = "";
+    $password = "";
 
-    //$username = $_POST["gebruikersnaam"];
-    //$password = $_POST["wachtwoord"];
-    $email = $data['email'];
-    $password = $data['password'];
+    if(isset($data['email'])) {
+        $email = $data['email'];
+    };
+    if(isset($data['password'])) {
+        $password = $data['password'];
+    };
 
-    // $sql = "SELECT *
-    //         FROM `users` 
-    //         WHERE   gebruikersnaam = '$username' AND
-    //                 wachtwoord = '$password'
-    //         ";
+    $sql = "SELECT *
+            FROM `users` 
+            WHERE   email = '$email' AND
+                    password = '$password'
+            ";
 
-    // $res = mysqli_query($con, $sql);   
-    // if($res) {
+    $res = mysqli_query($con, $sql);   
+    if($res) {
+        $lst[] = array();
+        //$_SESSION['logged_in'] = true;
 
-    //     $_SESSION['logged_in'] = true;
+        while($row = mysqli_fetch_assoc($res)) {
+            // $_SESSION['username'] = $rij['gebruikersnaam'];
+            // $_SESSION['user_id'] = $rij['id'];
+            $lst = $row;
 
-    //     while($rij = mysqli_fetch_assoc($res)) {
-    //         $_SESSION['username'] = $rij['gebruikersnaam'];
-    //         $_SESSION['user_id'] = $rij['id'];
-    //     }
+        }
 
-    //     $json = array(
-    //         "data"=>"login succes"
-    //     );
-    // } else {
-    //     $json = array(
-    //         "data"=>"inlog gegevens kloppen niet"
-    //     );
-    // }
-    
-    // $json = array(
-    //     "username" => $username,
-    //     "password" => $password
-    // );
+        if (mysqli_num_rows($res) == 1) {
+            $token = bin2hex(random_bytes(20));
+            $userID = $lst["id"];
 
-    $json = array (
-        "gebruikersnaam"=>$email,
-        "wachtwoord"=>$password
-    );
+            $sqlToken = "UPDATE `users`
+                        SET token = '$token'
+                        WHERE id = '$userID' 
+            ";
 
+            $updateToken = mysqli_query($con, $sqlToken);   
+
+            $json = array(
+                "succes"=>true,
+                "data"=>array(
+                    "username"=>$lst["username"],
+                    "email"=>$lst["email"],
+                    "user_id"=>$lst["id"],
+                    "admin"=>$lst["admin"],
+                    "token"=>$token
+                ),
+            );
+        }
+        else {
+            $json = array(
+                "succes"=>false,
+                "data"=>"inlog gegevens kloppen niet"
+            );
+        }
+  
+
+    } 
+    else {
+        $json = array(
+            "succes"=>false,
+            "data"=>"kan geen verbinding maken met database"
+        );
+    }
     echo json_encode($json);
 }
 
@@ -104,7 +128,7 @@ if( $_GET["action"] == "test" ) {
         }
         $json = array(
             "succes"=>true,
-            "data"=>$lst
+            "data"=>$lst,
         );
     }
 
