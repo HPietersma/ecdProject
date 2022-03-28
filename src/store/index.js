@@ -4,8 +4,8 @@ import axios from 'axios'
 
 Vue.use(Vuex)
 
-//axios.defaults.baseURL = "http://localhost:80/htdocs/ecdProject/src/php/"
-axios.defaults.baseURL = "http://localhost:81/ecd/src/php/"
+axios.defaults.baseURL = "http://localhost:80/htdocs/ecdProject/src/php/"
+//axios.defaults.baseURL = "http://localhost:81/ecd/src/php/"
 
 export default new Vuex.Store({
   state: {

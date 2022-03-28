@@ -8,7 +8,7 @@ import DashboardRouter from '@/components/DashboardRouter.vue'
 
 
 export default {
-  name: 'DashboardTeacher',
+  name: 'DashboardView',
   components: {
     DashboardRouter
   }

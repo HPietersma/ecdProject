@@ -95,9 +95,9 @@
             }
         },
         methods: {
-            test() {
-                this.$router.push({path: "dashboard"});
-            },
+            // test() {
+            //     this.$router.push({path: "dashboard"});
+            // },
             login() {
                 this.$store.dispatch("login", this.loginData);
                 //this.$router.push({path: "dashboard"});                
