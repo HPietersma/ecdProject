@@ -14,12 +14,12 @@ const routes = [
   {
     path: '/dashboard',
     name: 'dashboard',
-    component: () => import('../views/teacher/DashboardView.vue')
+    component: () => import('../views/Supervisor/DashboardView.vue')
   },
   {
     path: '/casus',
     name: 'casus',
-    component: () => import('../views/teacher/CasusView.vue')
+    component: () => import('../views/Supervisor/CasusView.vue')
   },
   {
     path: '/about',

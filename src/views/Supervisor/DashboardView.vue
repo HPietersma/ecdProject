@@ -4,7 +4,7 @@
 
 <script>
 // @ is an alias to /src
-import DashboardRouter from '@/components/DashboardRouter.vue'
+import DashboardRouter from '@/components/supervisor/DashboardRouter.vue'
 
 
 export default {

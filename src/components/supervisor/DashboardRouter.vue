@@ -17,7 +17,15 @@
                 >
                     Casussen
                 </v-btn>
-                <v-btn color="purple lighten-1" block class="white--text mt-5" height="75px">text</v-btn>
+                <v-btn 
+                    color="purple lighten-1" 
+                    block 
+                    class="white--text mt-5 font-weight-black text-h4"
+                    height="75px"
+                    v-on:click="clienten()"
+                >
+                    Clienten
+                </v-btn>
                 <v-btn color="purple lighten-1" block class="white--text mt-5" height="75px">text</v-btn>
                 <v-btn color="purple lighten-1" block class="white--text mt-5" height="75px">text</v-btn>
                 <v-btn color="purple lighten-1" block class="white--text mt-5" height="75px">text</v-btn>
@@ -40,6 +48,9 @@
             casus() {
                 this.$router.push({path: "casus"});
             },
+            clienten() {
+                this.$router.push({path: "clienten"});
+            }
         },
     }
 

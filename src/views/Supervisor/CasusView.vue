@@ -4,7 +4,7 @@
 
 <script>
 // @ is an alias to /src
-import CasusIndex from '@/components/teacher/casus/index.vue'
+import CasusIndex from '@/components/supervisor/casus/index.vue'
 
 
 export default {
