@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `ecd`
+-- Database: `ecd_clienten`
 --
 
 -- --------------------------------------------------------
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `allergie` (
   `id` int(11) NOT NULL,
   `allergie_id` int(11) NOT NULL,
-  `allergie` varchar(100) NOT NULL
+  `allergie` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -42,8 +42,7 @@ CREATE TABLE `allergie` (
 CREATE TABLE `allergien` (
   `id` int(11) NOT NULL,
   `client_id` int(11) NOT NULL,
-  `allergien` int(11) NOT NULL,
-  `info` varchar(255) NOT NULL
+  `notitie` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -65,28 +64,6 @@ CREATE TABLE `clienten` (
   `afspraken` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Tabelstructuur voor tabel `users`
---
-
-CREATE TABLE `users` (
-  `id` int(11) NOT NULL,
-  `username` varchar(50) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `password` varchar(30) NOT NULL,
-  `token` varchar(30) DEFAULT NULL,
-  `admin` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Gegevens worden geëxporteerd voor tabel `users`
---
-
-INSERT INTO `users` (`id`, `username`, `email`, `password`, `token`, `admin`) VALUES
-(1, 'Hessel', 'test@test.nl', 'Test123', NULL, 1);
-
 --
 -- Indexen voor geëxporteerde tabellen
 --
@@ -96,15 +73,14 @@ INSERT INTO `users` (`id`, `username`, `email`, `password`, `token`, `admin`) VA
 --
 ALTER TABLE `allergie`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `allergie` (`allergie`),
-  ADD KEY `allergie on allergien` (`allergie_id`);
+  ADD KEY `allergie_id` (`allergie_id`);
 
 --
 -- Indexen voor tabel `allergien`
 --
 ALTER TABLE `allergien`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `client_id` (`client_id`);
+  ADD KEY `client_id_2` (`client_id`);
 
 --
 -- Indexen voor tabel `clienten`
@@ -112,12 +88,6 @@ ALTER TABLE `allergien`
 ALTER TABLE `clienten`
   ADD PRIMARY KEY (`id`),
   ADD KEY `behandelplan` (`behandelplan`,`aandoeningen`,`allergien`,`medicatie`,`hulpmiddelen`,`contactpersonen`,`afspraken`);
-
---
--- Indexen voor tabel `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT voor geëxporteerde tabellen
@@ -142,10 +112,20 @@ ALTER TABLE `clienten`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT voor een tabel `users`
+-- Beperkingen voor geëxporteerde tabellen
 --
-ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- Beperkingen voor tabel `allergie`
+--
+ALTER TABLE `allergie`
+  ADD CONSTRAINT `allergie on allergien` FOREIGN KEY (`allergie_id`) REFERENCES `allergien` (`id`);
+
+--
+-- Beperkingen voor tabel `allergien`
+--
+ALTER TABLE `allergien`
+  ADD CONSTRAINT `allergien on client` FOREIGN KEY (`client_id`) REFERENCES `clienten` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

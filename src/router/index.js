@@ -22,6 +22,11 @@ const routes = [
     component: () => import('../views/Supervisor/CasusView.vue')
   },
   {
+    path: '/clienten',
+    name: 'clienten',
+    component: () => import('../views/Supervisor/ClientenView.vue')
+  },
+  {
     path: '/about',
     name: 'about',
     // route level code-splitting
