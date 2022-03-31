@@ -2,8 +2,6 @@
 
 if( $_GET["action"] == "login" ) {
 
-    //session_start();
-
     $request_body = file_get_contents('php://input');
     $data = json_decode($request_body, true);
 
@@ -36,15 +34,15 @@ if( $_GET["action"] == "login" ) {
         }
 
         if (mysqli_num_rows($res) == 1) {
-            $token = bin2hex(random_bytes(20));
-            $userID = $lst["id"];
+            // $token = bin2hex(random_bytes(20));
+            // $userID = $lst["id"];
 
-            $sqlToken = "UPDATE `users`
-                        SET token = '$token'
-                        WHERE id = '$userID' 
-            ";
+            // $sqlToken = "UPDATE `users`
+            //             SET token = '$token'
+            //             WHERE id = '$userID' 
+            // ";
 
-            $updateToken = mysqli_query($con, $sqlToken);   
+            //$updateToken = mysqli_query($con, $sqlToken);   
 
             $json = array(
                 "succes"=>true,
@@ -53,9 +51,15 @@ if( $_GET["action"] == "login" ) {
                     "email"=>$lst["email"],
                     "user_id"=>$lst["id"],
                     "admin"=>$lst["admin"],
-                    "token"=>$token
+                    //"token"=>$token
                 ),
             );
+
+            $_SESSION["logged_in"] = true;
+            $_SESSION["username"] = $lst["username"];
+            $_SESSION["user_id"] = $lst["id"];
+
+    
         }
         else {
             $json = array(
@@ -63,15 +67,7 @@ if( $_GET["action"] == "login" ) {
                 "data"=>"inlog gegevens kloppen niet"
             );
         }
-  
-
     } 
-    else {
-        $json = array(
-            "succes"=>false,
-            "data"=>"kan geen verbinding maken met database"
-        );
-    }
 }
 
 
