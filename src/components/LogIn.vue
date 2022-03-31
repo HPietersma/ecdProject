@@ -42,7 +42,6 @@
                 </v-card>
             </v-col>
         </v-row>
-        {{loggedInData}}
     </v-container>
 </template>
 
@@ -67,11 +66,12 @@
 
         created() {
             //this.$store.dispatch("fetchUsers");
+            this.$store.dispatch("fetchUserData");
         },
 
         computed: {
-            users() {
-                return this.$store.state.users;
+            user() {
+                return this.$store.state.user;
             },
             mobileViewPadding() {
                 switch(this.$vuetify.breakpoint.name) {
@@ -95,13 +95,12 @@
             }
         },
         methods: {
-            // test() {
-            //     this.$router.push({path: "dashboard"});
-            // },
             login() {
                 this.$store.dispatch("login", this.loginData);
                 //this.$router.push({path: "dashboard"});                
-            }
+            },
+ 
+
 
         },
 

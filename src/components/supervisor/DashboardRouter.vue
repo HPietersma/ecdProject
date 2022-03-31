@@ -29,7 +29,7 @@
                 <v-btn color="purple lighten-1" block class="white--text mt-5" height="75px">text</v-btn>
                 <v-btn color="purple lighten-1" block class="white--text mt-5" height="75px">text</v-btn>
                 <v-btn color="purple lighten-1" block class="white--text mt-5" height="75px">text</v-btn>
-                {{loggedInData}}
+                {{userData}}
             </v-col>
         </v-row>
     </v-container>
@@ -45,7 +45,7 @@
 
         },
         created() {
-            this.$store.dispatch("fetchLoginData");
+            this.$store.dispatch("fetchUserData");
         },
         methods: {
             casus() {
@@ -56,8 +56,8 @@
             }
         },
         computed: {
-            loggedInData() {
-                return this.$store.state.users;
+            userData() {
+                return this.$store.state.user;
             },
         }
     }

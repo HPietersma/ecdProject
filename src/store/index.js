@@ -5,12 +5,12 @@ import axios from 'axios'
 Vue.use(Vuex)
 
 //axios.defaults.baseURL = "http://localhost:80/htdocs/ecdProject/src/php"
-axios.defaults.baseURL = "http://localhost:81/ecd/src/php/test.php"
+axios.defaults.baseURL = "http://localhost:81/ecd/src/php"
 axios.defaults.withCredentials = true
 
 export default new Vuex.Store({
   state: {
-    users: [],
+    user: null,
     loginData: null,
   },
   getters: {
@@ -19,8 +19,8 @@ export default new Vuex.Store({
     },
   },
   mutations: {
-    setUsers(state, users) {
-      state.users = users;
+    setUser(state, user) {
+      state.user = user;
     },
     setLoginData(state, loginData) {
       state.loginData = loginData;
@@ -44,7 +44,9 @@ export default new Vuex.Store({
         .then (response => {
           console.log(response.data);
           if (response.data.succes === true) {
-            commit("setLoginData", response.data.data);
+            commit("setLoginData", response.data.succes);
+            localStorage.logged_in = response.data.data.username;
+            console.log(localStorage.logged_in);
           }
           else {
             window.alert(response.data.data);
@@ -54,12 +56,12 @@ export default new Vuex.Store({
           console.log(err);
         })
     },
-    fetchLoginData({ commit }) {
-      axios.get("?action=getLoginData")
+    fetchUserData({ commit }) {
+      axios.get("?action=getUserData")
         .then (response => {
           console.log(response.data);
 
-          commit("setUsers", response.data);
+          commit("setUser", response.data);
         })
         .catch ( err => { 
           console.log(err)
