@@ -1,35 +1,32 @@
 <template>
     <v-container
-        
+        fill-height
+        align-center
     >
         <v-row justify="center">
-            <v-col
-                cols="5"
-                align-content-space-between
-            >
-            testtesttest
-            </v-col>
+            TESTTESTETESTETST
         </v-row>
     </v-container>
 </template>
 <script>
     export default {
-        name: "MenuBar",
+        name: "ClientComponent",
 
         data() {
-            return {
-
-            }
 
         },
         created() {
-        },
-        methods: {
-
+         
         },
         computed: {
-
-        }
+    
+        },
+        watch: {
+            
+        },
+        methods: {
+      
+        },
     }
 
 </script>
