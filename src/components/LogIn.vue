@@ -67,6 +67,7 @@
         created() {
             //this.$store.dispatch("fetchUsers");
             this.$store.dispatch("fetchUserData");
+            this.test();
         },
 
         computed: {
@@ -99,6 +100,13 @@
                 this.$store.dispatch("login", this.loginData);
                 //this.$router.push({path: "dashboard"});                
             },
+            test() {
+                console.log(localStorage.logged_in);
+                if (localStorage.logged_in == "true") {
+                    this.$router.push({path: "dashboard"});
+                    //console.log("testtesttest")
+                }
+            }
  
 
 

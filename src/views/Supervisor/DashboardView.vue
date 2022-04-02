@@ -1,16 +1,21 @@
 <template>
-  <DashboardRouter/>
+  <div>
+    <MenuBar/>
+    <Dashboard/>
+  </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import DashboardRouter from '@/components/supervisor/DashboardRouter.vue'
+import Dashboard from '@/components/Dashboard.vue'
+import MenuBar from '@/components/MenuBar.vue'
 
 
 export default {
   name: 'DashboardView',
   components: {
-    DashboardRouter
+    Dashboard,
+    MenuBar
   }
 }
 </script>

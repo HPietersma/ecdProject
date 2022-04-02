@@ -36,7 +36,7 @@
 </template>
 <script>
     export default {
-        name: "dashboardRouter",
+        name: "DashboardComponent",
 
         data() {
             return {
