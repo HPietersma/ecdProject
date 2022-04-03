@@ -14,10 +14,11 @@ export default new Vuex.Store({
     user: null,
     loginData: null,
     clients: null,
+    clientData: null,
   },
   getters: {
     getUsers: state => {
-      return state.users;
+      return state.user;
     },
   },
   mutations: {
@@ -28,8 +29,12 @@ export default new Vuex.Store({
       state.loginData = loginData;
     },
     setClients(state, clients) {
-      state.clients = clients
-    }
+      state.clients = clients;
+    },
+    setClientData(state, clientData) {
+      state.clientData = clientData;
+    },
+
   },
   actions: {
     login({ commit }, loginData) {
@@ -78,7 +83,18 @@ export default new Vuex.Store({
       .catch ( err => { 
         console.log(err)
       })
-    }
+    },
+    fetchClientData({ commit }, client_id) {
+      axios.post("?action=getClientData", client_id)
+      .then (response => {
+        console.log(response.data);
+
+        commit("setClientData", response.data.data);
+      })
+      .catch ( err => { 
+        console.log(err)
+      })
+    },
   },
   modules: {
   }

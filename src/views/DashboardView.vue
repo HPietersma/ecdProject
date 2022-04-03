@@ -1,12 +1,35 @@
 <template>
   <div>
-    <nav>
+    <!-- <nav>
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link> |
       <router-link to="/dashboard/casus">Casus</router-link> |
       <router-link to="/dashboard/clienten">Clienten</router-link> |
       <a href="#" v-on:click="logout()">Logout</a>
-    </nav>
+    </nav> -->
+
+    <v-app-bar
+      dense
+      color="purple lighten-1"
+      class="white--text"
+      dark
+    >
+   
+
+      
+        <v-tabs align-with-title>
+          <v-tab to="/">Home</v-tab>
+          <v-tab to="/about">About</v-tab>
+          <v-tab to="/dashboard/casus">Casus</v-tab>
+          <v-tab to="/dashboard/clienten">Clienten</v-tab>
+        </v-tabs>
+         <v-spacer></v-spacer>
+      <v-btn icon @click="logout()">
+        <v-icon>mdi-logout-variant</v-icon>
+      </v-btn>
+    </v-app-bar>
+
+
     <router-view></router-view>
   </div>
 </template>

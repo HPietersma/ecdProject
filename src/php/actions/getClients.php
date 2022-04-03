@@ -1,6 +1,6 @@
 <?php
 
-$sql = "SELECT *
+$sql = "SELECT id, voornaam, achternaam, geboortedatum
         FROM `clienten` 
         ";
 

@@ -10,7 +10,7 @@
                 :search="search"
                 :loading="loading"
                 @click:row="selectedClient"
-                class="elevation-1"
+                class="elevation-1 noselect"
             >
                 <template v-slot:top>
                     <v-text-field
@@ -22,6 +22,7 @@
                     </v-text-field>
                 </template>
             </v-data-table>
+            <router-view/>
         </v-row>
     </v-container>
 </template>
@@ -68,14 +69,16 @@
         },
         methods: {
             selectedClient(client) {
-               console.log(client.id)
-           }
+                this.$router.push({path: "client", query: {id: client.id}});
+            }
         },
     }
 
 </script>
 <style scoped>
-
+    .noselect {
+        user-select: none;
+    }
 
 
 </style>
