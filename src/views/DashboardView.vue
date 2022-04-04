@@ -10,24 +10,63 @@
 
     <v-app-bar
       dense
-      color="purple lighten-1"
+      color="indigo lighten-1"
       class="white--text"
       dark
     >
-   
-
-      
-        <v-tabs align-with-title>
-          <v-tab to="/">Home</v-tab>
-          <v-tab to="/about">About</v-tab>
-          <v-tab to="/dashboard/casus">Casus</v-tab>
-          <v-tab to="/dashboard/clienten">Clienten</v-tab>
-        </v-tabs>
-         <v-spacer></v-spacer>
-      <v-btn icon @click="logout()">
-        <v-icon>mdi-logout-variant</v-icon>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" v-show="mobile"></v-app-bar-nav-icon>
+      <v-tabs 
+        align-with-title 
+        v-show="!mobile"
+      >
+        <v-tab to="/">Home</v-tab>
+        <v-tab to="/about">About</v-tab>
+        <v-tab to="/dashboard/casus">Casus</v-tab>
+        <v-tab to="/dashboard/clienten">Clienten</v-tab>
+      </v-tabs>
+        <v-spacer></v-spacer>
+      <v-btn 
+        @click="logout()" 
+        outlined
+      >
+        Logout 
+        <v-icon>mdi-logout-variant</v-icon> 
       </v-btn>
-    </v-app-bar>
+    </v-app-bar>  
+
+    <v-navigation-drawer
+      v-model="drawer"
+      absolute
+      bottom
+      temporary
+      v-if="mobile"
+    >
+      <v-list
+        nav
+        dense
+      >
+        <v-list-item-group
+          v-model="group"
+          active-class="indigo--text text--accent-4"
+        >
+          <v-list-item to="/">
+            <v-list-item-title>Home</v-list-item-title>
+          </v-list-item>
+
+          <v-list-item to="/about">
+            <v-list-item-title>About</v-list-item-title>
+          </v-list-item>
+
+          <v-list-item to="/dashboard/casus">
+            <v-list-item-title>Casus</v-list-item-title>
+          </v-list-item>
+
+          <v-list-item to="/dashboard/clienten">
+            <v-list-item-title >Clienten</v-list-item-title>
+          </v-list-item>
+        </v-list-item-group>
+      </v-list>
+    </v-navigation-drawer>
 
 
     <router-view></router-view>
@@ -47,7 +86,8 @@ export default {
   },
   data() {
     return {
-   
+      drawer: false,
+      group: null,
     }
   },
   created() {
@@ -55,10 +95,21 @@ export default {
   },
 
   computed: {
-
+    mobile() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs': return true
+        case 'sm': return true
+        case 'md': return false
+        case 'lg': return false
+        case 'xl': return false
+        default: return false
+      }
+    }
   },
   watch: {
-
+    group () {
+      this.drawer = false
+    },
   },
   methods: {
     logout() {
