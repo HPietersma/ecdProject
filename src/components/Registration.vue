@@ -13,6 +13,13 @@
                         v-model="valid"
                     >
                         <v-text-field 
+                            label="Gebruiker"
+                            v-model="loginData.username"
+                            prepend-icon="mdi-account-circle"
+                            :rules="nameRules"
+                            required
+                        />
+                        <v-text-field 
                             label="e-mail"
                             v-model="loginData.email"
                             prepend-icon="mdi-at"
@@ -33,13 +40,12 @@
                     <v-btn 
                         elevation="2" 
                         block
-                        color="indigo lighten-1"
-                        class="white--text font-weight-bold mb-5"
-                        v-on:click="login()"
+                        color="indigo lighten-1 font-weight-bold"
+                        class="white--text"
+                        v-on:click="register()"
                     >
-                        inloggen
+                        register
                     </v-btn>
-                    <router-link to="/register" class="">Registeren</router-link>
                 </v-card>
             </v-col>
         </v-row>
@@ -48,11 +54,11 @@
 
 <script>
     export default {
-        name: 'LogIn',
-
+        name: 'RegistRation',
         data() {
             return {
                 showPassword: false,
+                username: "",
                 email: "",
                 password: "",
                 valid: false,
@@ -61,24 +67,20 @@
                     v => /.+@.+\..+/.test(v) || 'niet geldige e-mail',
                 ],
                 nameRules: [ v => !!v],
-                loginData: {email: "", password: ""}
+                loginData: { username: "",email: "", password: ""}
             }
         },
-
         created() {
             //this.$store.dispatch("fetchUsers");
-            this.$store.dispatch("fetchUserData");
-            this.pushIfLoggedIn();
         },
-
         computed: {
-            user() {
-                return this.$store.state.user;
+            users() {
+                return this.$store.state.users;
             },
             mobileViewPadding() {
                 switch(this.$vuetify.breakpoint.name) {
                     case "xs": return "pa-0 pt-0 pb-0"
-                    default : return "pa-5 pt-10 pb-5"
+                    default : return "pa-5 pt-10 pb-10"
                 }
             },
             mobileViewElevation() {
@@ -97,24 +99,13 @@
             }
         },
         methods: {
-            login() {
-                this.$store.dispatch("login", this.loginData);
-                //this.$router.push({path: "dashboard"});                
-            },
-            pushIfLoggedIn() {
-                console.log(localStorage.logged_in);
-                if (localStorage.logged_in == "true") {
-                    this.$router.push({path: "dashboard"});
-                }
+            register() {
+                this.$store.dispatch("register", this.loginData);
+                this.$router.push({path: "/"});                
             }
- 
-
-
         },
-
     }
 </script>
 
 <style scoped>
-
 </style>

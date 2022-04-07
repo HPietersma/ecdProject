@@ -5,6 +5,7 @@ import axios from 'axios'
 
 Vue.use(Vuex)
 
+//axios.defaults.baseURL = "http://localhost:80/ecdProject/src/php/"
 //axios.defaults.baseURL = "http://localhost:80/htdocs/ecdProject/src/php"
 axios.defaults.baseURL = "http://localhost:81/ecd/src/php"
 axios.defaults.withCredentials = true
@@ -78,6 +79,22 @@ export default new Vuex.Store({
         .catch (err => {
           console.log(err);
         }) 
+    },
+    register({ commit }, loginData) {
+      axios.post("login.php?action=register", loginData
+      ) 
+        .then (response => {
+          console.log(response.data);
+          if (response.data.succes === true) {
+            commit("setLoginData", response.data.data);
+          }
+          else {
+            window.alert(response.data.data);
+          }
+        })
+        .catch (err => {
+          console.log(err);
+        })
     },
     fetchUserData({ commit }) {
       axios.get("?action=getUserData")

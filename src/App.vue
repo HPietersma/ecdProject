@@ -5,10 +5,23 @@
         <router-link to="/">Home</router-link> |
         <router-link to="/about">About</router-link>
       </nav> -->
+      <!-- <theme-button/> -->
       <router-view/>
     </v-app>
   </div>
 </template>
+
+<script>
+  //import ThemeButton from '@/components/ThemeButton.vue'
+  
+  
+  export default {
+    name: 'app',
+    components: {
+      //ThemeButton
+    }
+  }
+</script>
 
 <style lang="scss">
 #app {
