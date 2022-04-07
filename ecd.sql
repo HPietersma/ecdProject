@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 03 apr 2022 om 11:41
+-- Gegenereerd op: 07 apr 2022 om 13:53
 -- Serverversie: 10.4.17-MariaDB
 -- PHP-versie: 8.0.0
 
@@ -94,16 +94,20 @@ CREATE TABLE `clienten` (
   `id` int(11) NOT NULL,
   `voornaam` varchar(30) NOT NULL,
   `achternaam` varchar(30) NOT NULL,
-  `geboortedatum` varchar(30) NOT NULL
+  `geboortedatum` varchar(30) NOT NULL,
+  `telefoon` varchar(15) NOT NULL,
+  `email` varchar(30) NOT NULL,
+  `adres` varchar(50) NOT NULL,
+  `plaats` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `clienten`
 --
 
-INSERT INTO `clienten` (`id`, `voornaam`, `achternaam`, `geboortedatum`) VALUES
-(1, 'Jack', 'Sparrow', '01-01-1900'),
-(2, 'Davy', 'Jones', '10-10-1500');
+INSERT INTO `clienten` (`id`, `voornaam`, `achternaam`, `geboortedatum`, `telefoon`, `email`, `adres`, `plaats`) VALUES
+(1, 'Jack', 'Sparrow', '01-01-1900', '0611223344', 'jack@sparrow.nl', 'pakjesboot 12', 'zee'),
+(2, 'Davy', 'Jones', '10-10-1500', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -115,11 +119,18 @@ CREATE TABLE `contactpersonen` (
   `id` int(11) NOT NULL,
   `client_id` int(11) NOT NULL,
   `contactpersoon` varchar(30) NOT NULL,
-  `telefoon` int(11) NOT NULL,
+  `telefoon` varchar(15) NOT NULL,
   `email` varchar(50) NOT NULL,
   `adres` varchar(50) NOT NULL,
   `plaats` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `contactpersonen`
+--
+
+INSERT INTO `contactpersonen` (`id`, `client_id`, `contactpersoon`, `telefoon`, `email`, `adres`, `plaats`) VALUES
+(1, 1, 'Hessel Pietersma', '0611111111', 'abra@kadabra.nl', 'straat 10', 'plekje');
 
 -- --------------------------------------------------------
 
@@ -150,6 +161,27 @@ CREATE TABLE `medicatie` (
 -- --------------------------------------------------------
 
 --
+-- Tabelstructuur voor tabel `roles`
+--
+
+CREATE TABLE `roles` (
+  `id` int(2) NOT NULL,
+  `role` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `roles`
+--
+
+INSERT INTO `roles` (`id`, `role`) VALUES
+(2, 'Behandelend arts'),
+(3, 'Mantelzorger'),
+(4, 'Supervisor'),
+(1, 'Zorgverlener');
+
+-- --------------------------------------------------------
+
+--
 -- Tabelstructuur voor tabel `users`
 --
 
@@ -159,7 +191,7 @@ CREATE TABLE `users` (
   `email` varchar(50) NOT NULL,
   `password` varchar(30) NOT NULL,
   `token` varchar(30) DEFAULT NULL,
-  `role` tinyint(1) NOT NULL DEFAULT 0
+  `role` int(2) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -167,7 +199,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `password`, `token`, `role`) VALUES
-(1, 'Hessel', 'test@test.nl', 'Test123', NULL, 1);
+(1, 'Hessel', 'test@test.nl', 'Test123', NULL, 4);
 
 --
 -- Indexen voor geëxporteerde tabellen
@@ -236,10 +268,18 @@ ALTER TABLE `medicatie`
   ADD KEY `client_id` (`client_id`);
 
 --
+-- Indexen voor tabel `roles`
+--
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `role` (`role`);
+
+--
 -- Indexen voor tabel `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `users to roles` (`role`);
 
 --
 -- AUTO_INCREMENT voor geëxporteerde tabellen
@@ -285,7 +325,7 @@ ALTER TABLE `clienten`
 -- AUTO_INCREMENT voor een tabel `contactpersonen`
 --
 ALTER TABLE `contactpersonen`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT voor een tabel `hulpmiddelen`
@@ -298,6 +338,12 @@ ALTER TABLE `hulpmiddelen`
 --
 ALTER TABLE `medicatie`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT voor een tabel `roles`
+--
+ALTER TABLE `roles`
+  MODIFY `id` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT voor een tabel `users`
@@ -356,6 +402,12 @@ ALTER TABLE `hulpmiddelen`
 --
 ALTER TABLE `medicatie`
   ADD CONSTRAINT `medicatie on clienten` FOREIGN KEY (`client_id`) REFERENCES `clienten` (`id`);
+
+--
+-- Beperkingen voor tabel `users`
+--
+ALTER TABLE `users`
+  ADD CONSTRAINT `users to roles` FOREIGN KEY (`role`) REFERENCES `roles` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
