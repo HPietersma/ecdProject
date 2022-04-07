@@ -5,8 +5,8 @@ import axios from 'axios'
 
 Vue.use(Vuex)
 
-axios.defaults.baseURL = "http://localhost:80/htdocs/ecdProject/src/php"
-//axios.defaults.baseURL = "http://localhost:81/ecd/src/php"
+//axios.defaults.baseURL = "http://localhost:80/htdocs/ecdProject/src/php"
+axios.defaults.baseURL = "http://localhost:81/ecd/src/php"
 axios.defaults.withCredentials = true
 
 export default new Vuex.Store({
@@ -15,6 +15,19 @@ export default new Vuex.Store({
     loginData: null,
     clients: null,
     clientData: null,
+    routes: {
+      "Supervisor": [
+        {"title": "Home", "link": "/"},
+        {"title": "Casus", "link": "/dashboard/casus"},
+        {"title": "Clienten", "link": "/dashboard/clienten"},
+      ], 
+      "behandelend_arts": [
+        {"title": "Test", "link": "/"},
+        {"title": "Test", "link": "/dashboard/casus"},
+        {"title": "Test", "link": "/dashboard/clienten"},
+      ],
+      
+    },
   },
   getters: {
     getUsers: state => {
@@ -44,6 +57,7 @@ export default new Vuex.Store({
           if (response.data.succes === true) {
             commit("setLoginData", response.data.succes);
             localStorage.logged_in = response.data.succes;
+            localStorage.role = response.data.data.role;
           }
           else {
             window.alert(response.data.data);
@@ -54,6 +68,9 @@ export default new Vuex.Store({
         })
     },
     logout() {
+      localStorage.removeItem("logged_in");
+      localStorage.removeItem("role");
+
       axios.post("?action=logout")
         .then (response => {
           console.log(response)

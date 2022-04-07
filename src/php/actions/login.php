@@ -29,6 +29,23 @@ if($res) {
         // $_SESSION['user_id'] = $rij['id'];
         $lst = $row;
 
+        $role_id = $lst['role'];
+
+        $sql2 = "SELECT role
+        FROM `roles` 
+        WHERE   id = '$role_id'
+        ";
+
+        $res2 = mysqli_query($con, $sql2);
+        $role = "";
+
+        if($res2) {
+            while($row2 = mysqli_fetch_assoc($res2)) {
+                $lst['role'] = $row2['role'];
+            }
+        }
+
+
     }
 
     if (mysqli_num_rows($res) == 1) {
@@ -48,6 +65,7 @@ if($res) {
                 "username"=>$lst["username"],
                 "email"=>$lst["email"],
                 "user_id"=>$lst["id"],
+                "role"=>$lst["role"],
                 //"token"=>$token
             ),
         );

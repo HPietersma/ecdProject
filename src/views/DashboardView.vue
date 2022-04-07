@@ -22,7 +22,7 @@
         Logout 
         <v-icon>mdi-logout-variant</v-icon> 
       </v-btn>
-    </v-app-bar>  
+    </v-app-bar>  {{getRoutes}}
     
     <v-navigation-drawer
       v-model="drawer"
@@ -65,11 +65,11 @@ export default {
     return {
       drawer: false,
       group: null,
-      routes: [
-                {"title": "Home", "link": "/"},
-                {"title": "Casus", "link": "/dashboard/casus"},
-                {"title": "Clienten", "link": "/dashboard/clienten"},
-              ],
+      // routes: [
+      //   {"title": "Home", "link": "/"},
+      //   {"title": "Casus", "link": "/dashboard/casus"},
+      //   {"title": "Clienten", "link": "/dashboard/clienten"},
+      // ],
     }
   },
   created() {
@@ -86,6 +86,9 @@ export default {
         case 'xl': return false
         default: return false
       }
+    },
+    routes() {
+      return this.$store.state.routes[localStorage.role];
     }
   },
   watch: {
@@ -95,7 +98,6 @@ export default {
   },
   methods: {
     logout() {
-      localStorage.logged_in = "false";
       this.$store.dispatch("logout");
       this.$router.push({path: "/"});
     },

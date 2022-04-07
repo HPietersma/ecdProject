@@ -33,8 +33,8 @@
                     <v-btn 
                         elevation="2" 
                         block
-                        color="purple lighten-1"
-                        class="white--text"
+                        color="indigo lighten-1"
+                        class="white--text font-weight-bold"
                         v-on:click="login()"
                     >
                         inloggen
