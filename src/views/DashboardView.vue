@@ -22,7 +22,7 @@
         Logout 
         <v-icon>mdi-logout-variant</v-icon> 
       </v-btn>
-    </v-app-bar>  {{getRoutes}}
+    </v-app-bar> 
     
     <v-navigation-drawer
       v-model="drawer"

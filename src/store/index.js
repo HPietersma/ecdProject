@@ -6,8 +6,8 @@ import axios from 'axios'
 Vue.use(Vuex)
 
 //axios.defaults.baseURL = "http://localhost:80/ecdProject/src/php/"
-//axios.defaults.baseURL = "http://localhost:80/htdocs/ecdProject/src/php"
-axios.defaults.baseURL = "http://localhost:81/ecd/src/php"
+axios.defaults.baseURL = "http://localhost:80/htdocs/ecdProject/src/php"
+//axios.defaults.baseURL = "http://localhost:81/ecd/src/php"
 axios.defaults.withCredentials = true
 
 export default new Vuex.Store({
@@ -16,11 +16,13 @@ export default new Vuex.Store({
     loginData: null,
     clients: null,
     clientData: null,
+    klassen: null,
     routes: {
       "Supervisor": [
         {"title": "Home", "link": "/"},
         {"title": "Casus", "link": "/dashboard/casus"},
         {"title": "Clienten", "link": "/dashboard/clienten"},
+        {"title": "Klassen", "link": "/dashboard/klassen"},
       ], 
       "behandelend_arts": [
         {"title": "Test", "link": "/"},
@@ -47,6 +49,9 @@ export default new Vuex.Store({
     },
     setClientData(state, clientData) {
       state.clientData = clientData;
+    },
+    setKlassen(state, klassenData) {
+      state.klassen = klassenData;
     },
 
   },
@@ -129,7 +134,19 @@ export default new Vuex.Store({
         console.log(err)
       })
     },
+    fetchKlassen({ commit }) {
+      axios.get("?action=getKlassen")
+      .then (response => {
+        console.log(response.data);
+
+        commit("setKlassen", response.data.data);
+      })
+      .catch ( err => { 
+        console.log(err)
+      })
+    },
   },
+
   modules: {
   }
 })

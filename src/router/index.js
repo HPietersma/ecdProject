@@ -25,13 +25,17 @@ const routes = [
         component: () => import('../components/casus/Casus.vue')
       },
       {
+        path: "klassen",
+        component: () => import('../components/supervisor/Klassen.vue')
+      },
+      {
         path: "clienten",
         component: () => import('../components/clienten/Clienten.vue')
       },
       {
         path: "client",
         component: () => import('../components/clienten/Client.vue')
-      }
+      },
     ]
   },
   {
