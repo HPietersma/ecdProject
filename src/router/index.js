@@ -29,6 +29,10 @@ const routes = [
         component: () => import('../components/supervisor/Klassen.vue')
       },
       {
+        path: "klas",
+        component: () => import('../components/supervisor/Klas.vue')
+      },
+      {
         path: "clienten",
         component: () => import('../components/clienten/Clienten.vue')
       },

@@ -17,6 +17,7 @@ export default new Vuex.Store({
     clients: null,
     clientData: null,
     klassen: null,
+    klas: null,
     routes: {
       "Supervisor": [
         {"title": "Home", "link": "/"},
@@ -52,6 +53,9 @@ export default new Vuex.Store({
     },
     setKlassen(state, klassenData) {
       state.klassen = klassenData;
+    },
+    setKlas(state, klas) {
+      state.klas = klas;
     },
 
   },
@@ -140,6 +144,17 @@ export default new Vuex.Store({
         console.log(response.data);
 
         commit("setKlassen", response.data.data);
+      })
+      .catch ( err => { 
+        console.log(err)
+      })
+    },
+    fetchKlas({ commit }, klas_id) {
+      axios.post("?action=getKlas", klas_id)
+      .then (response => {
+        console.log(response.data);
+
+        commit("setKlas", response.data.data);
       })
       .catch ( err => { 
         console.log(err)

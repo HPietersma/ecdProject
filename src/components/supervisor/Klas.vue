@@ -1,15 +1,14 @@
 <template>
-    <v-container
+<v-container
         fill-height
         align-center
     >
         <v-row justify="center">
             <v-data-table
                 :headers="headers"
-                :items="klassen"
+                :items="klas"
                 :search="search"
                 :loading="loading"
-                @click:row="selectedKlas"
                 class="elevation-1 noselect"
             >
                 <template v-slot:top>
@@ -28,28 +27,28 @@
 </template>
 <script>
     export default {
-        name: "KlassenComponent",
+        name: "KlasComponent",
 
         data() {
             return {
                 search: "",
                 headers: [
                     { text: 'id', value: 'id' },
-                    { text: 'naam', value: 'naam' },
+                    { text: 'naam', value: 'username' },
+                    { text: 'email', value: 'email' },
                 ],
                 emptyTable: [],
                 loading: true,
-                   
             }
         },
         created() {
-            this.$store.dispatch("fetchKlassen");
+            this.$store.dispatch("fetchKlas", {"klas_id": this.$route.query.id});
         },
         computed: {
-            klassen() {
-                let klassen = this.$store.state.klassen;
-                if (klassen) {
-                    return klassen;
+            klas() {
+                let klas = this.$store.state.klas;
+                if (klas) {
+                    return klas;
                 }
                 else {
                     return this.emptyTable;
@@ -57,8 +56,8 @@
             },
         },
         watch: {
-            klassen() {
-                if (this.klassen) {
+            klas() {
+                if (this.klas) {
                     this.loading = false;
                 }
                 else {
@@ -67,17 +66,13 @@
             }
         },
         methods: {
-            selectedKlas(klas) {
-                this.$router.push({path: "klas", query: {id: klas.id}});
-            }
+      
         },
     }
 
 </script>
 <style scoped>
-    .noselect {
-        user-select: none;
-    }
+
 
 
 </style>
