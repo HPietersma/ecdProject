@@ -33,8 +33,8 @@
             return {
                 search: "",
                 headers: [
-                    { text: 'id', value: 'id' },
-                    { text: 'naam', value: 'username' },
+                    { text: 'naam', value: 'voornaam' },
+                    { text: 'achternaam', value: 'achternaam' },
                     { text: 'email', value: 'email' },
                 ],
                 emptyTable: [],
@@ -72,7 +72,9 @@
 
 </script>
 <style scoped>
-
+    .noselect {
+        user-select: none;
+    }
 
 
 </style>

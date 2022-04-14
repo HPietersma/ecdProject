@@ -1,30 +1,55 @@
 <?php
 
-$sql = "SELECT *
-        FROM `klassen` 
-        ";
+if (isset($_SESSION["role"])) {
+    if ($_SESSION["role"] == "Supervisor") {
 
-$res = mysqli_query($con, $sql);   
-if($res) {
-    $lst = array();
+        $sql = "SELECT *
+                FROM `klassen` 
+                ";
 
-    while($row = mysqli_fetch_assoc($res)) {
+        $res = mysqli_query($con, $sql);   
+        if($res) {
+            $lst = array();
 
-        $lst[] = $row;
+            while($row = mysqli_fetch_assoc($res)) {
 
+                $lst[] = $row;
+
+            }
+
+            $json = array(
+                "succes"=>true,
+                "data"=>$lst
+            );
+
+
+        }
+        else {
+            $json = array(
+                "succes"=>false,
+                "data"=>null
+            );
+        }
     }
-
-    $json = array(
-        "succes"=>true,
-        "data"=>$lst
-    );
-
-
+    else {
+        $json = array(
+            "succes"=>false,
+            "data"=>NULL,
+            "error"=>array(
+                "code"=>"401",
+                "message"=>"onbevoegd"
+            ),
+        );
+    }
 }
 else {
     $json = array(
         "succes"=>false,
-        "data"=>null
+        "data"=>NULL,
+        "error"=>array(
+            "code"=>"401",
+            "message"=>"niet ingelogd"
+        ),
     );
 }
  

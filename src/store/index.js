@@ -12,6 +12,7 @@ axios.defaults.withCredentials = true
 
 export default new Vuex.Store({
   state: {
+    error: null,
     user: null,
     loginData: null,
     clients: null,
@@ -39,6 +40,9 @@ export default new Vuex.Store({
     },
   },
   mutations: {
+    setError(state, error) {
+      state.error = error;
+    },
     setUser(state, user) {
       state.user = user;
     },
@@ -142,8 +146,12 @@ export default new Vuex.Store({
       axios.get("?action=getKlassen")
       .then (response => {
         console.log(response.data);
-
-        commit("setKlassen", response.data.data);
+        if (response.data.error) {
+          commit("setError", response.data.error)
+        }
+        else {
+          commit("setKlassen", response.data.data);
+        }
       })
       .catch ( err => { 
         console.log(err)

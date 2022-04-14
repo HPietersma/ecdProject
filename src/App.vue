@@ -1,6 +1,17 @@
 <template>
   <div id="app">
-    <v-app>
+    <div v-if="error" class="errMessage">
+      <h1>{{error.code}}</h1>
+      <p>{{error.message}}</p>
+      <br>
+      <v-btn 
+        class="btn"
+        @click="logout()" 
+      >
+        opnieuw inloggen
+      </v-btn>
+    </div>
+    <v-app v-if="!error">
       <!-- <nav>
         <router-link to="/">Home</router-link> |
         <router-link to="/about">About</router-link>
@@ -19,8 +30,21 @@
     name: 'app',
     components: {
       //ThemeButton
-    }
+    },
+    computed: {
+      error() {
+        return this.$store.state.error
+      }
+    },
+    methods: {
+      logout() {
+        this.$store.state.error = null;
+        this.$store.dispatch("logout");
+        this.$router.push({path: "/"});
+    },
+  },
   }
+  
 </script>
 
 <style lang="scss">
@@ -43,5 +67,13 @@ nav {
       color: #42b983;
     }
   }
+}
+
+.errMessage {
+  margin-top: 100px;
+}
+
+.btn {
+  background-color: purple;
 }
 </style>
