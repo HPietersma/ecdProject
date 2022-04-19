@@ -40,6 +40,10 @@ const routes = [
         path: "client",
         component: () => import('../components/clienten/Client.vue')
       },
+      {
+        path: "clientForm",
+        component: () => import('../components/clienten/ClientForm.vue')
+      },
     ]
   },
   {

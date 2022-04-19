@@ -3,6 +3,17 @@
         fill-height
         align-center
     >
+        <v-row>
+            <v-btn
+                color="primary"
+                outlined
+                x-small
+                class="test"
+                to="/dashboard/clientForm"
+            >
+                nieuwe client
+            </v-btn>
+        </v-row>
         <v-row justify="center">
             <v-data-table
                 :headers="headers"
@@ -78,6 +89,10 @@
 <style scoped>
     .noselect {
         user-select: none;
+    }
+
+    .test {
+        margin-left: calc(50% - 275px);
     }
 
 

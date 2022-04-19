@@ -6,8 +6,8 @@ import axios from 'axios'
 Vue.use(Vuex)
 
 //axios.defaults.baseURL = "http://localhost:80/ecdProject/src/php/"
-axios.defaults.baseURL = "http://localhost:80/htdocs/ecdProject/src/php"
-//axios.defaults.baseURL = "http://localhost:81/ecd/src/php"
+//axios.defaults.baseURL = "http://localhost:80/htdocs/ecdProject/src/php"
+axios.defaults.baseURL = "http://localhost:81/ecd/src/php"
 axios.defaults.withCredentials = true
 
 export default new Vuex.Store({
@@ -26,7 +26,7 @@ export default new Vuex.Store({
         {"title": "Clienten", "link": "/dashboard/clienten"},
         {"title": "Klassen", "link": "/dashboard/klassen"},
       ], 
-      "behandelend_arts": [
+      "Behandelend_arts": [
         {"title": "Test", "link": "/"},
         {"title": "Test", "link": "/dashboard/casus"},
         {"title": "Test", "link": "/dashboard/clienten"},
@@ -94,7 +94,7 @@ export default new Vuex.Store({
         }) 
     },
     register({ commit }, loginData) {
-      axios.post("login.php?action=register", loginData
+      axios.post("?action=register", loginData
       ) 
         .then (response => {
           console.log(response.data);
@@ -168,6 +168,16 @@ export default new Vuex.Store({
         console.log(err)
       })
     },
+    createNewClient({ commit }, clientData) {
+      console.log(commit);
+      axios.post("?action=createNewClient", clientData) 
+        .then (response => {
+          console.log(response.data);
+        })
+        .catch (err => {
+          console.log(err);
+        })
+    }
   },
 
   modules: {
