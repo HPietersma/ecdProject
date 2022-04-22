@@ -6,8 +6,8 @@ import axios from 'axios'
 Vue.use(Vuex)
 
 //axios.defaults.baseURL = "http://localhost:80/ecdProject/src/php/"
-//axios.defaults.baseURL = "http://localhost:80/htdocs/ecdProject/src/php"
-axios.defaults.baseURL = "http://localhost:81/ecd/src/php"
+axios.defaults.baseURL = "http://localhost:80/htdocs/ecdProject/src/php"
+//axios.defaults.baseURL = "http://localhost:81/ecd/src/php"
 axios.defaults.withCredentials = true
 
 export default new Vuex.Store({
@@ -19,6 +19,7 @@ export default new Vuex.Store({
     clientData: null,
     klassen: null,
     klas: null,
+    postMessage: null,
     routes: {
       "Supervisor": [
         {"title": "Home", "link": "/"},
@@ -60,6 +61,9 @@ export default new Vuex.Store({
     },
     setKlas(state, klas) {
       state.klas = klas;
+    },
+    setPostMessage(state, postMessage) {
+      state.postMessage = postMessage;
     },
 
   },
@@ -169,14 +173,15 @@ export default new Vuex.Store({
       })
     },
     createNewClient({ commit }, clientData) {
-      console.log(commit);
       axios.post("?action=createNewClient", clientData) 
         .then (response => {
           console.log(response.data);
+          commit("setPostMessage", response.data.message);
         })
         .catch (err => {
           console.log(err);
-        })
+        }
+      )
     }
   },
 

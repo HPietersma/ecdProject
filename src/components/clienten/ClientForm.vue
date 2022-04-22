@@ -312,6 +312,9 @@
                 </v-btn>
             </v-col>
         </v-row>
+        <div v-if="showPostMessage">
+            {{postMessage}}
+        </div>
     </v-container>
 </template>
 <script>
@@ -321,6 +324,7 @@
         data() {
             return {
                 data: null,
+                showPostMessage: false,
                 clientData: {
                     "NAW": {
                         "voornaam": null, "achternaam": null, "geboortedatum": null, "telefoon": null, "email": null, "adres": null, "woonplaats": null
@@ -346,13 +350,19 @@
             }
         },
         created() {
-            
+  
         },
         computed: {
-        
+            postMessage() {
+                return this.$store.state.postMessage;
+            },
         },
         watch: {
-            
+            postMessage() {
+                if (this.postMessage) {
+                    this.fshowPostMessage()
+                }
+            }
         },
         methods: {
             addMedicatie() {
@@ -387,7 +397,11 @@
             },
             createNewClient() {
                 this.$store.dispatch("createNewClient", this.clientData);
-            }
+            },
+            fshowPostMessage() {
+                this.showPostMessage = true;
+                //setTimeout(this.showPostMessage = false, 5000);
+            },
         },
     }
 
