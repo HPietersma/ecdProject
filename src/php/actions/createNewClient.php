@@ -15,7 +15,9 @@ $plaats = "";
 
 $reanimeren = true;
 
-$aandoeningen = array();
+$aandoeningen = null;
+
+$medicatie = null;
 
 // NAW
     if (isset($data['NAW']['voornaam'])) {
@@ -47,12 +49,25 @@ $aandoeningen = array();
 
 // AANDOENINGEN
     if (isset($data['aandoeningen'])) {
-        //$aandoeningen = $data['aandoeningen']['item'];
         foreach ($data['aandoeningen'] as $key => $value) {
-            $aandoeningen[] = $value;
-        }
+            if ($value) {
+                if (!empty($value['item'])) {
+                    $aandoeningen[] = $value;
+                };
+            };
+        };
     };
 
+// MEDICATIE
+    if (isset($data['medicatie'])) {
+        foreach ($data['medicatie'] as $key => $value) {
+            if ($value) {
+                if (!empty($value['item'])) {
+                    $medicatie[] = $value;
+                };
+            };
+        };
+    };
 
 
 
@@ -83,14 +98,29 @@ $aandoeningen = array();
         mysqli_query($con, $sql_reanimeren);
 
     // AANDOENINGEN
-        foreach ($aandoeningen as $key => $value) {
-            $item = $value['item'];
-            $sql_aandoeningen = 
-                "INSERT INTO aandoeningen (client_id, aandoening)
-                VALUES ('$client_id', '$item')
-            ";
-            mysqli_query($con, $sql_aandoeningen);
-        }
+        if ($aandoeningen) {
+            foreach ($aandoeningen as $key => $value) {
+                $item = $value['item'];
+                $sql_aandoeningen = 
+                    "INSERT INTO aandoeningen (client_id, aandoening)
+                    VALUES ('$client_id', '$item')
+                ";
+                mysqli_query($con, $sql_aandoeningen);
+            };
+        };
+
+
+    // MEDICATIE
+        if ($medicatie) {
+            foreach ($medicatie as $key => $value) {
+                $item = $value['item'];
+                $sql_medicatie = 
+                    "INSERT INTO medicatie (client_id, medicatie)
+                    VALUES ('$client_id', '$item')
+                ";
+                mysqli_query($con, $sql_medicatie);
+            }; 
+        };
 
 
 
@@ -98,9 +128,9 @@ $aandoeningen = array();
 
  
 $json = array(
-"succes"=>true,
-"data"=>$data,
-"test"=>$aandoeningen
+    "succes"=>true,
+    "message"=>"client is toegevoegd",
+    "data"=>$data,
 );
     
 
