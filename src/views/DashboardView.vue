@@ -46,6 +46,7 @@
       </v-list>
     </v-navigation-drawer>
 
+    <router-view name="messageBar"/>
     <router-view></router-view>
   </div>
 </template>

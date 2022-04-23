@@ -22,7 +22,10 @@ const routes = [
     children: [
       {
         path: "casus",
-        component: () => import('../components/casus/Casus.vue')
+        components: {
+          default: () => import('../components/casus/Casus.vue'),
+          messageBar: () => import('../views/AboutView.vue')
+        }
       },
       {
         path: "klassen",
@@ -42,7 +45,10 @@ const routes = [
       },
       {
         path: "clientForm",
-        component: () => import('../components/clienten/ClientForm.vue')
+        components: {
+          default: () => import('../components/clienten/ClientForm.vue'),
+          messageBar: () => import('../components/MessageBar.vue')
+        }
       },
     ]
   },
