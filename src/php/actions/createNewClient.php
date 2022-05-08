@@ -7,7 +7,7 @@ $client_id;
 
 $voornaam = "";
 $achternaam = "";
-$telefoon = "";
+$telefoon= "";
 $geboortedatum = "";
 $email = "";
 $adres = "";
@@ -18,6 +18,14 @@ $reanimeren = true;
 $aandoeningen = null;
 
 $medicatie = null;
+
+$allergien = null;
+
+$hulpmiddelen = null;
+
+$contactpersonen = null;
+
+$behandelplan = null;
 
 // NAW
     if (isset($data['NAW']['voornaam'])) {
@@ -69,6 +77,45 @@ $medicatie = null;
         };
     };
 
+// ALLERGIEN
+    if (isset($data['allergien'])) {
+        foreach ($data['allergien'] as $key => $value) {
+            if ($value) {
+                if (!empty($value['item'])) {
+                    $allergien[] = $value;
+                };
+            };
+        };
+    };
+
+// HULPMIDDELEN
+    if (isset($data['hulpmiddelen'])) {
+        foreach ($data['hulpmiddelen'] as $key => $value) {
+            if ($value) {
+                if (!empty($value['item'])) {
+                    $hulpmiddelen[] = $value;
+                };
+            };
+        };
+    };
+
+// CONTACTPERSONEN
+    if (isset($data['contactpersonen'])) {
+        foreach ($data['contactpersonen'] as $key => $value) {
+            if ($value) {
+                if (!empty($value['naam'])) {
+                    $contactpersonen[] = $value;
+                };
+            };
+        };
+    };
+
+// BEHANDELPLAN
+    if (isset($data['behandelplan'])) {
+        if (!empty($data['behandelplan'])) {
+            $behandelplan = $data['behandelplan'];
+        };
+    };
 
 
 // QUERIES
@@ -81,55 +128,100 @@ $medicatie = null;
     if (isset($data)) {
         if (mysqli_query($con, $sql_clienten) == true) {
             $client_id = mysqli_insert_id($con);
+
+
+            // REANIMEREN
+                $sql_reanimeren = 
+                    "INSERT INTO reanimeren (client_id, reanimeren)
+                    VALUES ('$client_id', '$reanimeren')
+                ";
+                mysqli_query($con, $sql_reanimeren);
+
+            // AANDOENINGEN
+                if ($aandoeningen) {
+                    foreach ($aandoeningen as $key => $value) {
+                        $item = $value['item'];
+                        $sql_aandoeningen = 
+                            "INSERT INTO aandoeningen (client_id, aandoening)
+                            VALUES ('$client_id', '$item')
+                        ";
+                        mysqli_query($con, $sql_aandoeningen);
+                    };
+                };
+
+
+            // MEDICATIE
+                if ($medicatie) {
+                    foreach ($medicatie as $key => $value) {
+                        $item = $value['item'];
+                        $sql_medicatie = 
+                            "INSERT INTO medicatie (client_id, medicatie)
+                            VALUES ('$client_id', '$item')
+                        ";
+                        mysqli_query($con, $sql_medicatie);
+                    }; 
+                };
+
+            // ALLERGIEN
+                if ($allergien) {
+                    foreach ($allergien as $key => $value) {
+                        $item = $value['item'];
+                        $sql_allergien = 
+                            "INSERT INTO allergien (client_id, allergie)
+                            VALUES ('$client_id', '$item')
+                        ";
+                        mysqli_query($con, $sql_allergien);
+                    }; 
+                };
+
+            // HULPMIDDELEN
+                if ($hulpmiddelen) {
+                    foreach ($hulpmiddelen as $key => $value) {
+                        $item = $value['item'];
+                        $sql_hulpmiddelen = 
+                            "INSERT INTO hulpmiddelen (client_id, hulpmiddel)
+                            VALUES ('$client_id', '$item')
+                        ";
+                        mysqli_query($con, $sql_hulpmiddelen);
+                    }; 
+                };
+
+            // CONTACTPERSONEN
+                if ($contactpersonen) {
+                    foreach ($contactpersonen as $key => $value) {
+                        $contactpersoon = $value['naam'];
+                        $cTelefoon = $value['telefoon'];
+                        $cEmail = $value['email'];
+                        $cAdres = $value['adres'];
+                        $cWoonplaats = $value['woonplaats'];
+
+                        $sql_contactpersonen = 
+                            "INSERT INTO contactpersonen (client_id, contactpersoon, telefoon, email, adres, plaats)
+                            VALUES ('$client_id', '$contactpersoon', '$cTelefoon', '$cEmail', '$cAdres', '$cWoonplaats')
+                        ";
+                        mysqli_query($con, $sql_contactpersonen);
+                    }; 
+                };
+
+            // BEHANDELPLAN
+                if ($behandelplan) {
+                    $sql_behandelplan = 
+                        "INSERT INTO behandelplan (client_id, behandelplan)
+                        VALUES ('$client_id', '$behandelplan')
+                    ";
+                    mysqli_query($con, $sql_behandelplan);
+                };
+            //
         }
-        else {
-            die();
-        }
-    }
-    else {
-        die();
     };
-
-    // REANIMEREN
-        $sql_reanimeren = 
-            "INSERT INTO reanimeren (client_id, reanimeren)
-            VALUES ('$client_id', '$reanimeren')
-        ";
-        mysqli_query($con, $sql_reanimeren);
-
-    // AANDOENINGEN
-        if ($aandoeningen) {
-            foreach ($aandoeningen as $key => $value) {
-                $item = $value['item'];
-                $sql_aandoeningen = 
-                    "INSERT INTO aandoeningen (client_id, aandoening)
-                    VALUES ('$client_id', '$item')
-                ";
-                mysqli_query($con, $sql_aandoeningen);
-            };
-        };
-
-
-    // MEDICATIE
-        if ($medicatie) {
-            foreach ($medicatie as $key => $value) {
-                $item = $value['item'];
-                $sql_medicatie = 
-                    "INSERT INTO medicatie (client_id, medicatie)
-                    VALUES ('$client_id', '$item')
-                ";
-                mysqli_query($con, $sql_medicatie);
-            }; 
-        };
-
-
-
-
+//
 
  
 $json = array(
-    "succes"=>true,
-    "message"=>"client is toegevoegd",
+    "meta"=>array (
+        "succes"=>true,
+        "message"=>"Client is toegevoegd."
+    ),
     "data"=>$data,
 );
     

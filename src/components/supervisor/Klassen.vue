@@ -68,7 +68,7 @@
         },
         methods: {
             selectedKlas(klas) {
-                this.$router.push({path: "klas", query: {id: klas.id}});
+                this.$router.push({path: "klas", query: {id: klas.id, naam: klas.naam}});
             }
         },
     }

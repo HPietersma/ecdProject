@@ -19,7 +19,11 @@ export default new Vuex.Store({
     clientData: null,
     klassen: null,
     klas: null,
-    postMessage: null,
+    showNotification: false,
+    notificationMessage: null,
+    casusList: null,
+    casussen: null,
+    casus: null,
     routes: {
       "Supervisor": [
         {"title": "Home", "link": "/"},
@@ -62,10 +66,22 @@ export default new Vuex.Store({
     setKlas(state, klas) {
       state.klas = klas;
     },
-    setPostMessage(state, postMessage) {
-      state.postMessage = postMessage;
+    setNotificationMessage(state, message) {
+      state.notificationMessage = message;
+      state.showNotification = true;
     },
-
+    setHideNotification(state) {
+      state.showNotification = false;
+    },
+    setKlasWithCasussen(state, casusList) {
+      state.casusList = casusList;
+    },
+    setCasussen(state, casussen) {
+      state.casussen = casussen;
+    },
+    setCasus(state, casus) {
+      state.casus = casus;
+    }
   },
   actions: {
     login({ commit }, loginData) {
@@ -135,8 +151,8 @@ export default new Vuex.Store({
         console.log(err)
       })
     },
-    fetchClientData({ commit }, client_id) {
-      axios.post("?action=getClientData", client_id)
+    fetchClient({ commit }, client_id) {
+      axios.post("?action=getClient", client_id)
       .then (response => {
         console.log(response.data);
 
@@ -176,13 +192,60 @@ export default new Vuex.Store({
       axios.post("?action=createNewClient", clientData) 
         .then (response => {
           console.log(response.data);
-          commit("setPostMessage", response.data.message);
+          commit("setNotificationMessage", response.data.meta)
         })
         .catch (err => {
           console.log(err);
         }
       )
-    }
+    },
+    hideNotification({ commit}) {
+      commit("setHideNotification")
+    },
+    createCasus({ commit }, casusData) {
+      axios.post("?action=createCasus", casusData) 
+        .then (response => {
+          console.log(response.data);
+          commit("setNotificationMessage", response.data.meta)
+        })
+        .catch (err => {
+          console.log(err);
+        }
+      )
+    },
+    getKlasWithCasussen({ commit }, klas_id) {
+      axios.post("?action=getKlasWithCasussen", klas_id)
+      .then (response => {
+        console.log(response.data);
+        commit("setKlasWithCasussen", response.data.data);
+      })
+      .catch ( err => { 
+        console.log(err)
+      })
+    },
+    getCasussen({ commit }) {
+      axios.get("?action=getCasussen")
+        .then (response => {
+          console.log(response.data);
+
+          commit("setCasussen", response.data);
+        })
+        .catch ( err => { 
+          console.log(err)
+        }
+      )
+    },
+    getCasus({ commit }, casus_id) {
+      axios.post("?action=getCasus", casus_id)
+      .then (response => {
+        console.log(response.data);
+        commit("setCasus", response.data.data);
+      })
+      .catch ( err => { 
+        console.log(err)
+      })
+    },
+  
   },
 
   modules: {

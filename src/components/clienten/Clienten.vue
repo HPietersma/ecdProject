@@ -8,7 +8,8 @@
                 color="primary"
                 outlined
                 x-small
-                class="test"
+                class=""
+                :class="mobile ? 'yes' : 'no'"
                 to="/dashboard/clientForm"
             >
                 nieuwe client
@@ -67,6 +68,12 @@
                     return this.emptyTable;
                 }                
             },
+            mobile() {
+                switch(this.$vuetify.breakpoint.name) {
+                    case "xs": return true
+                    default : return false
+                }
+            },
         },
         watch: {
             clients() {
@@ -91,8 +98,16 @@
         user-select: none;
     }
 
-    .test {
+    .no {
         margin-left: calc(50% - 275px);
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+
+    .yes {
+        margin-left: 5px;
+        margin-top: 5px;
+        margin-bottom: 5px;
     }
 
 

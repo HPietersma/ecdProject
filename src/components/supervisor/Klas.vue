@@ -1,80 +1,192 @@
 <template>
 <v-container
-        fill-height
-        align-center
-    >
-        <v-row justify="center">
-            <v-data-table
-                :headers="headers"
-                :items="klas"
-                :search="search"
-                :loading="loading"
-                class="elevation-1 noselect"
-            >
-                <template v-slot:top>
-                    <v-text-field
-                        v-model="search"
-                        label="Zoeken"
-                        class="mx-4"
-                        prepend-icon="mdi-account-search"
-                    >
-                    </v-text-field>
-                </template>
-            </v-data-table>
-            <router-view/>
-        </v-row>
-    </v-container>
+    fill-height
+    align-center
+>
+    <div :class="mobile ? 'yes' : 'no'">
+        <a @click="goBackOne()">klassen</a>
+        >
+        <a>{{$route.query.naam}}</a>
+
+    </div>
+    <v-row justify="center">
+        <v-simple-table
+            class="mt-2"
+            v-if="klasWithCasussen"
+        >
+            <template v-slot:default>
+                <thead>
+                    <tr>
+                        <th class="text-left">
+                            Naam
+                        </th>
+                        <th class="text-left" v-for="item in klasWithCasussen.casussen" :key="item">
+                            {{item}}
+                        </th>
+                        <th>
+                            <v-dialog
+                                v-model="dialog"
+                                width="500"
+                            >
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-btn 
+                                        x-small 
+                                        outlined 
+                                        color="primary"
+                                        v-bind="attrs"
+                                        v-on="on"
+                                        v-on:click="getClients()"
+                                    >
+                                        nieuwe casus
+                                    </v-btn>
+                                </template>
+                                <v-card class="pa-2">
+                                    <v-card-text>
+                                        <v-text-field
+                                            label="naam"
+                                            v-model="newCasusData.naam"
+                                        >
+                                        </v-text-field>
+                                        <v-select
+                                            :items="clients"
+                                            item-text="id"
+                                            label="Client"
+                                            solo
+                                            v-model="newCasusData.client_id"
+                                        >
+                                          <template v-slot:item="{item}">
+                                                {{item.voornaam}}
+                                            </template>    
+                                            <template v-slot:selection="{item}">
+                                                {{item.voornaam}}
+                                            </template>
+                                        </v-select>
+                                    </v-card-text>
+                                    <v-divider></v-divider>
+                                    <v-card-actions>
+                                        <v-spacer></v-spacer>
+                                        <v-btn
+                                            color="primary"
+                                            text
+                                            v-on:click="createCasus()"
+                                            @click="dialog = false"
+                                        >
+                                            Aanmaken
+                                        </v-btn>
+                                    </v-card-actions>
+                                    {{newCasusData}}
+                                </v-card>
+                            </v-dialog>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(item, index) in klasWithCasussen.klas" :key="index">
+                        <td>
+                            {{item.user.voornaam}} 
+                            {{item.user.achternaam}}
+                        </td>
+                        <td v-for="(casus, index) in klasWithCasussen.klas[index].casussen" :key="index">
+                            {{casus.status}}
+                        </td>
+                    </tr>
+                </tbody>
+            </template>
+        </v-simple-table>
+    </v-row>
+</v-container>
 </template>
 <script>
-    export default {
-        name: "KlasComponent",
+export default {
+    name: "KlasComponent",
 
-        data() {
-            return {
-                search: "",
-                headers: [
-                    { text: 'naam', value: 'voornaam' },
-                    { text: 'achternaam', value: 'achternaam' },
-                    { text: 'email', value: 'email' },
-                ],
-                emptyTable: [],
-                loading: true,
+    data() {
+        return {
+            dialog: false,
+            emptyTable: [],
+            loading: true,
+            newCasusData: {"naam": null, "client_id": null, "klas_id": this.$route.query.id,}
+        }
+    },
+    created() {
+        this.$store.dispatch("getKlasWithCasussen", {"klas_id": this.$route.query.id});
+    },
+    computed: {
+        // klas() {
+        //     let klas = this.$store.state.klas;
+        //     if (klas) {
+        //         return klas;
+        //     }
+        //     else {
+        //         return this.emptyTable;
+        //     }                
+        // },
+        mobile() {
+            switch(this.$vuetify.breakpoint.name) {
+                case "xs": return true
+                default : return false
             }
         },
-        created() {
-            this.$store.dispatch("fetchKlas", {"klas_id": this.$route.query.id});
-        },
-        computed: {
-            klas() {
-                let klas = this.$store.state.klas;
-                if (klas) {
-                    return klas;
-                }
-                else {
-                    return this.emptyTable;
-                }                
-            },
-        },
-        watch: {
-            klas() {
-                if (this.klas) {
-                    this.loading = false;
-                }
-                else {
-                    this.loading = true;
-                }
+        clients() {
+            let clients = this.$store.state.clients;
+            if (clients) {
+                return clients;
             }
+            else {
+                return this.emptyTable;
+            }                
         },
-        methods: {
-      
+        klasWithCasussen() {
+            return this.$store.state.casusList;
         },
-    }
+        // casusListFilteredByName() {
+        //     return [...new Set(this.$store.state.casusList.map(({naam})=>naam))];
+        // },
+    },
+    watch: {
+        // klas() {
+        //     if (this.klas) {
+        //         this.loading = false;
+        //     }
+        //     else {
+        //         this.loading = true;
+        //     }
+        // }
+    },
+    methods: {
+        opdrachten() {
+            this.$router.push({path: "opdrachten", query: {id: this.$route.query.id, naam: this.$route.query.naam}});
+        },
+        goBackOne() {
+            this.$router.go(-1);
+        },
+        createCasus() {
+            this.$store.dispatch("createCasus", this.newCasusData)
+        },
+        getClients() {
+            this.$store.dispatch("fetchClients");
+        },
+    },
+}
 
 </script>
 <style scoped>
     .noselect {
         user-select: none;
     }
+
+    .no {
+        margin-left: calc(50% - 275px);
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+
+    .yes {
+        margin-left: 5px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+
 
 
 </style>

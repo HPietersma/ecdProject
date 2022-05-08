@@ -17,20 +17,27 @@
         <router-link to="/about">About</router-link>
       </nav> -->
 
+      <router-view name="nav"/>
       <router-view/>
+      <NotificationComponent v-if="showNotification" />
     </v-app>
   </div>
 </template>
 
 <script>
+  import NotificationComponent from "./components/NotificationComponent";
+
   export default {
     name: 'app',
     components: {
-
+      NotificationComponent
     },
     computed: {
       error() {
         return this.$store.state.error
+      },
+      showNotification() {
+        return this.$store.state.showNotification
       }
     },
     methods: {
@@ -38,8 +45,8 @@
         this.$store.state.error = null;
         this.$store.dispatch("logout");
         this.$router.push({path: "/"});
+      },
     },
-  },
   }
   
 </script>
@@ -51,6 +58,7 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  background-color: rgb(250, 250, 250);
 }
 
 nav {
