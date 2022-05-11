@@ -6,8 +6,8 @@ import axios from 'axios'
 Vue.use(Vuex)
 
 //axios.defaults.baseURL = "http://localhost:80/ecdProject/src/php/"
-//axios.defaults.baseURL = "http://localhost:80/htdocs/ecdProject/src/php"
-axios.defaults.baseURL = "http://localhost:81/ecd/src/php"
+axios.defaults.baseURL = "http://localhost:80/htdocs/ecdProject/src/php"
+//axios.defaults.baseURL = "http://localhost:81/ecd/src/php"
 axios.defaults.withCredentials = true
 
 export default new Vuex.Store({
@@ -24,6 +24,7 @@ export default new Vuex.Store({
     casusList: null,
     casussen: null,
     casus: null,
+    casusAnswers: null,
     routes: {
       "Supervisor": [
         {"title": "Home", "link": "/"},
@@ -81,6 +82,9 @@ export default new Vuex.Store({
     },
     setCasus(state, casus) {
       state.casus = casus;
+    },
+    setCasusAnswers(state, answers) {
+      state.casusAnswers = answers;
     }
   },
   actions: {
@@ -245,7 +249,27 @@ export default new Vuex.Store({
         console.log(err)
       })
     },
-  
+    createCasusAnswer({ commit }, answer) {
+      axios.post("?action=createCasusAnswer", answer) 
+        .then (response => {
+          console.log(response.data);
+          commit("setNotificationMessage", response.data.meta)
+        })
+        .catch (err => {
+          console.log(err);
+        }
+      )
+    },
+    getCasusAnswers({ commit }, casus_id) {
+      axios.post("?action=getCasusAnswers", casus_id)
+      .then (response => {
+        console.log(response.data);
+        commit("setCasusAnswers", response.data.data);
+      })
+      .catch ( err => { 
+        console.log(err)
+      })
+    },
   },
 
   modules: {

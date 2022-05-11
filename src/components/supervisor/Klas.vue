@@ -87,7 +87,21 @@
                             {{item.user.achternaam}}
                         </td>
                         <td v-for="(casus, index) in klasWithCasussen.klas[index].casussen" :key="index">
-                            {{casus.status}}
+                            <div
+                                class="status status-1"
+                                v-if="casus.status == 0"
+                            >
+                            </div>
+                            <div
+                                class="status status-2"
+                                v-if="casus.status == 1"
+                            >
+                            </div>
+                            <div
+                                class="status status-3"
+                                v-if="casus.status == 2"
+                            >
+                            </div>
                         </td>
                     </tr>
                 </tbody>
@@ -171,21 +185,40 @@ export default {
 
 </script>
 <style scoped>
-    .noselect {
-        user-select: none;
-    }
+.noselect {
+    user-select: none;
+}
 
-    .no {
-        margin-left: calc(50% - 275px);
-        margin-top: 5px;
-        margin-bottom: 5px;
-    }
+.no {
+    margin-left: calc(50% - 275px);
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
 
-    .yes {
-        margin-left: 5px;
-        margin-top: 5px;
-        margin-bottom: 5px;
-    }
+.yes {
+    margin-left: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.status {
+    height: 2em;
+    width: 2em;
+    border-radius: 1em;
+}
+
+
+.status-1 {
+    background-color: blue;
+}
+
+.status-2 {
+    background-color: green;
+}
+
+.status-3 {
+    background-color: red;
+}
 
 
 

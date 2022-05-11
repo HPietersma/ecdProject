@@ -116,7 +116,7 @@ if (isset($client_id)) {
             $res = mysqli_query($con, $sql);   
             if($res) {
                 while($row = mysqli_fetch_assoc($res)) {
-                $client[] = $row;
+                $client = $row;
                 }
             }
         //
