@@ -3,15 +3,9 @@
     fill-height
     align-center
 >
-    <div :class="mobile ? 'yes' : 'no'">
-        <a @click="goBackOne()">klassen</a>
-        >
-        <a>{{$route.query.naam}}</a>
-
-    </div>
     <v-row justify="center">
         <v-simple-table
-            class="mt-2"
+            class="mt-4"
             v-if="klasWithCasussen"
         >
             <template v-slot:default>
@@ -88,17 +82,17 @@
                         </td>
                         <td v-for="(casus, index) in klasWithCasussen.klas[index].casussen" :key="index">
                             <div
-                                class="status status-1"
+                                class="status grey lighten-3"
                                 v-if="casus.status == 0"
                             >
                             </div>
                             <div
-                                class="status status-2"
+                                class="status blue lighten-3"
                                 v-if="casus.status == 1"
                             >
                             </div>
                             <div
-                                class="status status-3"
+                                class="status purple lighten-3"
                                 v-if="casus.status == 2"
                             >
                             </div>
@@ -202,11 +196,10 @@ export default {
 }
 
 .status {
-    height: 2em;
-    width: 2em;
+    height: 1.5em;
+    width: 1.5em;
     border-radius: 1em;
 }
-
 
 .status-1 {
     background-color: blue;

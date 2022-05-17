@@ -17,9 +17,8 @@
         <v-spacer></v-spacer>
       <v-btn 
         @click="logout()" 
-        outlined
+        icon
       >
-        Logout 
         <v-icon>mdi-logout-variant</v-icon> 
       </v-btn>
     </v-app-bar> 

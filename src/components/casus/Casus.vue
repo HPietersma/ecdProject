@@ -78,13 +78,13 @@
                 return this.$store.state.casussen;
             },
             casusAfgerond() {
-                return this.$store.state.casussen.data.filter(i => i.status == "1")
+                return this.$store.state.casussen.data.filter(i => i.status == "3")
             },
             casusActief() {
                 return this.$store.state.casussen.data.filter(i => i.status == "2")
             },
             casusNieuw() {
-                return this.$store.state.casussen.data.filter(i => i.status == "3")
+                return this.$store.state.casussen.data.filter(i => i.status == "1")
             }
         },
         watch: {

@@ -6,9 +6,10 @@
         <v-row
             justify="center"
         >
-            <div 
-                class="infoPanel elevation-1 mt-5 pa-2"
+            <v-col 
+                class="infoPanel elevation-1 mt-5 pa-2 teal lighten-5 rounded mb-5"
                 v-if="casus"
+                cols="5"
             >
                 {{casus.client.voornaam}}
                 {{casus.client.achternaam}}<br>
@@ -16,16 +17,16 @@
                 {{casus.client.adres}}<br>
                 {{casus.client.plaats}}<br>
                 {{casus.client.telefoon}}<br>
-            </div>
+            </v-col>
 
         </v-row>
         <v-row
             justify="center"
-            v-for="casus in casusAnswers" :key="casus"
+            v-for="(casus, index) in casusAnswers" :key="index"
         >
             <v-col
-                cols="8"
-                class="answers elevation-1 mt-2"
+                cols="5"
+                class="answers elevation-1 mt-2 lighten-5 rounded"
             >
                 {{casus.answer}}
             </v-col>
@@ -35,6 +36,7 @@
         >
             <v-col
                 cols="5"
+                class="teal lighten-4 mt-2 mb-2 rounded"
             >
                 <div>
                     <v-textarea
@@ -45,7 +47,7 @@
                     </v-textarea>
 
                     <v-btn
-                        color="primary"
+                        color="teal white--text"
                         v-on:click="saveAnswer()"
                     >
                         Opslaan
@@ -97,7 +99,6 @@
 <style scoped>
 
 .infoPanel {
-    background-color: white;
     width: 700px;
     text-align: left;
 }
