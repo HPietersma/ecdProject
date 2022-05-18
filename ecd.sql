@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 07 apr 2022 om 13:53
+-- Gegenereerd op: 08 mei 2022 om 19:20
 -- Serverversie: 10.4.17-MariaDB
 -- PHP-versie: 8.0.0
 
@@ -33,6 +33,13 @@ CREATE TABLE `aandoeningen` (
   `aandoening` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Gegevens worden geëxporteerd voor tabel `aandoeningen`
+--
+
+INSERT INTO `aandoeningen` (`id`, `client_id`, `aandoening`) VALUES
+(10, 109, 'testaandoening');
+
 -- --------------------------------------------------------
 
 --
@@ -51,26 +58,21 @@ CREATE TABLE `afspraken` (
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `allergie`
---
-
-CREATE TABLE `allergie` (
-  `id` int(11) NOT NULL,
-  `allergie_id` int(11) NOT NULL,
-  `allergie` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
 -- Tabelstructuur voor tabel `allergien`
 --
 
 CREATE TABLE `allergien` (
   `id` int(11) NOT NULL,
   `client_id` int(11) NOT NULL,
-  `notitie` varchar(255) NOT NULL
+  `allergie` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `allergien`
+--
+
+INSERT INTO `allergien` (`id`, `client_id`, `allergie`) VALUES
+(3, 109, 'testallergie');
 
 -- --------------------------------------------------------
 
@@ -83,6 +85,48 @@ CREATE TABLE `behandelplan` (
   `client_id` int(11) NOT NULL,
   `behandelplan` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `behandelplan`
+--
+
+INSERT INTO `behandelplan` (`id`, `client_id`, `behandelplan`) VALUES
+(2, 109, 'as fsdaf asdf sadf dsfas fd asdf sadfas df');
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `casus`
+--
+
+CREATE TABLE `casus` (
+  `id` int(11) NOT NULL,
+  `naam` varchar(50) NOT NULL,
+  `status` int(2) NOT NULL DEFAULT 1,
+  `user_id` int(11) NOT NULL,
+  `client_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `casus`
+--
+
+INSERT INTO `casus` (`id`, `naam`, `status`, `user_id`, `client_id`) VALUES
+(17, 'test', 1, 2, 1),
+(18, 'test', 1, 3, 1),
+(19, 'test2', 1, 2, 2),
+(20, 'test2', 1, 3, 2),
+(21, 'test3', 1, 2, 2),
+(22, 'test4', 1, 1, 1),
+(23, 'test4', 1, 2, 1),
+(24, 'test4', 1, 3, 1),
+(25, 'test5', 1, 1, 1),
+(26, 'test5', 1, 2, 1),
+(27, 'test5', 1, 3, 1),
+(28, 'test6', 2, 1, 1),
+(29, 'test6', 1, 2, 1),
+(30, 'test6', 1, 3, 1),
+(31, 'test1', 1, 4, 1);
 
 -- --------------------------------------------------------
 
@@ -107,7 +151,8 @@ CREATE TABLE `clienten` (
 
 INSERT INTO `clienten` (`id`, `voornaam`, `achternaam`, `geboortedatum`, `telefoon`, `email`, `adres`, `plaats`) VALUES
 (1, 'Jack', 'Sparrow', '01-01-1900', '0611223344', 'jack@sparrow.nl', 'pakjesboot 12', 'zee'),
-(2, 'Davy', 'Jones', '10-10-1500', '', '', '', '');
+(2, 'Davy', 'Jones', '10-10-1500', '', '', '', ''),
+(109, 'test', 'test', '', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -130,7 +175,8 @@ CREATE TABLE `contactpersonen` (
 --
 
 INSERT INTO `contactpersonen` (`id`, `client_id`, `contactpersoon`, `telefoon`, `email`, `adres`, `plaats`) VALUES
-(1, 1, 'Hessel Pietersma', '0611111111', 'abra@kadabra.nl', 'straat 10', 'plekje');
+(1, 1, 'Hessel Pietersma', '0611111111', 'abra@kadabra.nl', 'straat 10', 'plekje'),
+(8, 109, 'asdf', 'asdf', 'asdf', 'sadf', 'asdf');
 
 -- --------------------------------------------------------
 
@@ -141,9 +187,34 @@ INSERT INTO `contactpersonen` (`id`, `client_id`, `contactpersoon`, `telefoon`, 
 CREATE TABLE `hulpmiddelen` (
   `id` int(11) NOT NULL,
   `client_id` int(11) NOT NULL,
-  `hulpmiddel` varchar(255) NOT NULL,
-  `notitie` varchar(255) NOT NULL
+  `hulpmiddel` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `hulpmiddelen`
+--
+
+INSERT INTO `hulpmiddelen` (`id`, `client_id`, `hulpmiddel`) VALUES
+(4, 109, 'testhulpmiddel');
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `klassen`
+--
+
+CREATE TABLE `klassen` (
+  `id` int(11) NOT NULL,
+  `naam` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `klassen`
+--
+
+INSERT INTO `klassen` (`id`, `naam`) VALUES
+(1, 'SD2A'),
+(2, 'AA1D');
 
 -- --------------------------------------------------------
 
@@ -157,6 +228,32 @@ CREATE TABLE `medicatie` (
   `medicatie` varchar(255) NOT NULL,
   `notitie` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `medicatie`
+--
+
+INSERT INTO `medicatie` (`id`, `client_id`, `medicatie`, `notitie`) VALUES
+(1, 109, 'testmedicatie', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `reanimeren`
+--
+
+CREATE TABLE `reanimeren` (
+  `id` int(10) NOT NULL,
+  `client_id` int(10) NOT NULL,
+  `reanimeren` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `reanimeren`
+--
+
+INSERT INTO `reanimeren` (`id`, `client_id`, `reanimeren`) VALUES
+(89, 109, 1);
 
 -- --------------------------------------------------------
 
@@ -174,7 +271,7 @@ CREATE TABLE `roles` (
 --
 
 INSERT INTO `roles` (`id`, `role`) VALUES
-(2, 'Behandelend arts'),
+(2, 'Behandelend_arts'),
 (3, 'Mantelzorger'),
 (4, 'Supervisor'),
 (1, 'Zorgverlener');
@@ -187,19 +284,24 @@ INSERT INTO `roles` (`id`, `role`) VALUES
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
-  `username` varchar(50) NOT NULL,
+  `voornaam` varchar(50) NOT NULL,
+  `achternaam` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
   `password` varchar(30) NOT NULL,
   `token` varchar(30) DEFAULT NULL,
-  `role` int(2) NOT NULL DEFAULT 0
+  `role` int(2) NOT NULL DEFAULT 0,
+  `klas_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `email`, `password`, `token`, `role`) VALUES
-(1, 'Hessel', 'test@test.nl', 'Test123', NULL, 4);
+INSERT INTO `users` (`id`, `voornaam`, `achternaam`, `email`, `password`, `token`, `role`, `klas_id`) VALUES
+(1, 'Hessel', 'Pietersma', 'test@test.nl', 'Test123', NULL, 4, 1),
+(2, 'arts', 'arts', 'arts@arts.nl', 'arts', NULL, 2, 1),
+(3, 'sdf', 'asdf', '', '', NULL, 2, 1),
+(4, 'test', 'test', '', '', NULL, 2, 2);
 
 --
 -- Indexen voor geëxporteerde tabellen
@@ -220,13 +322,6 @@ ALTER TABLE `afspraken`
   ADD KEY `client_id` (`client_id`);
 
 --
--- Indexen voor tabel `allergie`
---
-ALTER TABLE `allergie`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `allergie_id` (`allergie_id`);
-
---
 -- Indexen voor tabel `allergien`
 --
 ALTER TABLE `allergien`
@@ -239,6 +334,12 @@ ALTER TABLE `allergien`
 ALTER TABLE `behandelplan`
   ADD PRIMARY KEY (`id`),
   ADD KEY `client_id` (`client_id`);
+
+--
+-- Indexen voor tabel `casus`
+--
+ALTER TABLE `casus`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexen voor tabel `clienten`
@@ -261,11 +362,24 @@ ALTER TABLE `hulpmiddelen`
   ADD KEY `client_id` (`client_id`);
 
 --
+-- Indexen voor tabel `klassen`
+--
+ALTER TABLE `klassen`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexen voor tabel `medicatie`
 --
 ALTER TABLE `medicatie`
   ADD PRIMARY KEY (`id`),
   ADD KEY `client_id` (`client_id`);
+
+--
+-- Indexen voor tabel `reanimeren`
+--
+ALTER TABLE `reanimeren`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `reanimeren on clienten` (`client_id`);
 
 --
 -- Indexen voor tabel `roles`
@@ -279,7 +393,8 @@ ALTER TABLE `roles`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `users to roles` (`role`);
+  ADD KEY `users to roles` (`role`),
+  ADD KEY `klas_id` (`klas_id`);
 
 --
 -- AUTO_INCREMENT voor geëxporteerde tabellen
@@ -289,7 +404,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT voor een tabel `aandoeningen`
 --
 ALTER TABLE `aandoeningen`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT voor een tabel `afspraken`
@@ -298,46 +413,58 @@ ALTER TABLE `afspraken`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT voor een tabel `allergie`
---
-ALTER TABLE `allergie`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT voor een tabel `allergien`
 --
 ALTER TABLE `allergien`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT voor een tabel `behandelplan`
 --
 ALTER TABLE `behandelplan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT voor een tabel `casus`
+--
+ALTER TABLE `casus`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT voor een tabel `clienten`
 --
 ALTER TABLE `clienten`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
 
 --
 -- AUTO_INCREMENT voor een tabel `contactpersonen`
 --
 ALTER TABLE `contactpersonen`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT voor een tabel `hulpmiddelen`
 --
 ALTER TABLE `hulpmiddelen`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT voor een tabel `klassen`
+--
+ALTER TABLE `klassen`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT voor een tabel `medicatie`
 --
 ALTER TABLE `medicatie`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT voor een tabel `reanimeren`
+--
+ALTER TABLE `reanimeren`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
 
 --
 -- AUTO_INCREMENT voor een tabel `roles`
@@ -349,7 +476,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT voor een tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Beperkingen voor geëxporteerde tabellen
@@ -359,7 +486,7 @@ ALTER TABLE `users`
 -- Beperkingen voor tabel `aandoeningen`
 --
 ALTER TABLE `aandoeningen`
-  ADD CONSTRAINT `aandoeningen on clienten` FOREIGN KEY (`client_id`) REFERENCES `clienten` (`id`);
+  ADD CONSTRAINT `aandoeningen on clienten` FOREIGN KEY (`client_id`) REFERENCES `clienten` (`id`) ON DELETE CASCADE;
 
 --
 -- Beperkingen voor tabel `afspraken`
@@ -368,40 +495,40 @@ ALTER TABLE `afspraken`
   ADD CONSTRAINT `afspraken on clienten` FOREIGN KEY (`client_id`) REFERENCES `clienten` (`id`);
 
 --
--- Beperkingen voor tabel `allergie`
---
-ALTER TABLE `allergie`
-  ADD CONSTRAINT `allergie on allergien` FOREIGN KEY (`allergie_id`) REFERENCES `allergien` (`id`);
-
---
 -- Beperkingen voor tabel `allergien`
 --
 ALTER TABLE `allergien`
-  ADD CONSTRAINT `allergien on client` FOREIGN KEY (`client_id`) REFERENCES `clienten` (`id`);
+  ADD CONSTRAINT `allergien on client` FOREIGN KEY (`client_id`) REFERENCES `clienten` (`id`) ON DELETE CASCADE;
 
 --
 -- Beperkingen voor tabel `behandelplan`
 --
 ALTER TABLE `behandelplan`
-  ADD CONSTRAINT `behandelplan on clienten` FOREIGN KEY (`client_id`) REFERENCES `clienten` (`id`);
+  ADD CONSTRAINT `behandelplan on clienten` FOREIGN KEY (`client_id`) REFERENCES `clienten` (`id`) ON DELETE CASCADE;
 
 --
 -- Beperkingen voor tabel `contactpersonen`
 --
 ALTER TABLE `contactpersonen`
-  ADD CONSTRAINT `contactpersonen on client` FOREIGN KEY (`client_id`) REFERENCES `clienten` (`id`);
+  ADD CONSTRAINT `contactpersonen on client` FOREIGN KEY (`client_id`) REFERENCES `clienten` (`id`) ON DELETE CASCADE;
 
 --
 -- Beperkingen voor tabel `hulpmiddelen`
 --
 ALTER TABLE `hulpmiddelen`
-  ADD CONSTRAINT `hulpmiddelen on clienten` FOREIGN KEY (`client_id`) REFERENCES `clienten` (`id`);
+  ADD CONSTRAINT `hulpmiddelen on clienten` FOREIGN KEY (`client_id`) REFERENCES `clienten` (`id`) ON DELETE CASCADE;
 
 --
 -- Beperkingen voor tabel `medicatie`
 --
 ALTER TABLE `medicatie`
   ADD CONSTRAINT `medicatie on clienten` FOREIGN KEY (`client_id`) REFERENCES `clienten` (`id`);
+
+--
+-- Beperkingen voor tabel `reanimeren`
+--
+ALTER TABLE `reanimeren`
+  ADD CONSTRAINT `reanimeren on clienten` FOREIGN KEY (`client_id`) REFERENCES `clienten` (`id`) ON DELETE CASCADE;
 
 --
 -- Beperkingen voor tabel `users`

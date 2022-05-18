@@ -28,7 +28,7 @@ $json = array(
     "data"=>null
 );
 
-$action = "action_not_recognized";
+$action = "no_action_set";
 if (isset($_GET["action"])) {
     $action = $_GET["action"];
 }

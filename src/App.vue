@@ -1,26 +1,54 @@
 <template>
   <div id="app">
-    <v-app>
+    <div v-if="error" class="errMessage">
+      <h1>{{error.code}}</h1>
+      <p>{{error.message}}</p>
+      <br>
+      <v-btn 
+        class="btn"
+        @click="logout()" 
+      >
+        opnieuw inloggen
+      </v-btn>
+    </div>
+    <v-app v-if="!error">
       <!-- <nav>
         <router-link to="/">Home</router-link> |
         <router-link to="/about">About</router-link>
       </nav> -->
-      <!-- <theme-button/> -->
+
+      <router-view name="nav"/>
       <router-view/>
+      <NotificationComponent v-if="showNotification" />
     </v-app>
   </div>
 </template>
 
 <script>
-  //import ThemeButton from '@/components/ThemeButton.vue'
-  
-  
+  import NotificationComponent from "./components/NotificationComponent";
+
   export default {
     name: 'app',
     components: {
-      //ThemeButton
-    }
+      NotificationComponent
+    },
+    computed: {
+      error() {
+        return this.$store.state.error
+      },
+      showNotification() {
+        return this.$store.state.showNotification
+      }
+    },
+    methods: {
+      logout() {
+        this.$store.state.error = null;
+        this.$store.dispatch("logout");
+        this.$router.push({path: "/"});
+      },
+    },
   }
+  
 </script>
 
 <style lang="scss">
@@ -30,6 +58,7 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  background-color: rgb(250, 250, 250);
 }
 
 nav {
@@ -43,5 +72,13 @@ nav {
       color: #42b983;
     }
   }
+}
+
+.errMessage {
+  margin-top: 100px;
+}
+
+.btn {
+  background-color: purple;
 }
 </style>

@@ -62,7 +62,6 @@ if($res) {
         $json = array(
             "succes"=>true,
             "data"=>array(
-                "username"=>$lst["username"],
                 "email"=>$lst["email"],
                 "user_id"=>$lst["id"],
                 "role"=>$lst["role"],
@@ -71,7 +70,6 @@ if($res) {
         );
 
         $_SESSION["logged_in"] = true;
-        $_SESSION["username"] = $lst["username"];
         $_SESSION["user_id"] = $lst["id"];
         $_SESSION["role"] = $lst["role"];
         $_SESSION["email"] = $lst["email"];

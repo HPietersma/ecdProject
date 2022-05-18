@@ -3,25 +3,13 @@
         fill-height
         align-center
     >
-        <v-row>
-            <v-btn
-                color="primary"
-                outlined
-                x-small
-                class=""
-                :class="mobile ? 'yes' : 'no'"
-                to="/dashboard/clientForm"
-            >
-                nieuwe client
-            </v-btn>
-        </v-row>
         <v-row justify="center">
             <v-data-table
                 :headers="headers"
-                :items="clients"
+                :items="klassen"
                 :search="search"
                 :loading="loading"
-                @click:row="selectedClient"
+                @click:row="selectedKlas"
                 class="elevation-1 noselect"
             >
                 <template v-slot:top>
@@ -40,15 +28,14 @@
 </template>
 <script>
     export default {
-        name: "ClientenComponent",
+        name: "KlassenComponent",
 
         data() {
             return {
                 search: "",
                 headers: [
-                    { text: 'Achternaam', value: 'achternaam' },
-                    { text: 'Voornaam', value: 'voornaam' },
-                    { text: 'Geboortedatum', value: 'geboortedatum' },
+                    { text: 'id', value: 'id' },
+                    { text: 'naam', value: 'naam' },
                 ],
                 emptyTable: [],
                 loading: true,
@@ -56,28 +43,22 @@
             }
         },
         created() {
-            this.$store.dispatch("fetchClients");
+            this.$store.dispatch("fetchKlassen");
         },
         computed: {
-            clients() {
-                let clients = this.$store.state.clients;
-                if (clients) {
-                    return clients;
+            klassen() {
+                let klassen = this.$store.state.klassen;
+                if (klassen) {
+                    return klassen;
                 }
                 else {
                     return this.emptyTable;
                 }                
             },
-            mobile() {
-                switch(this.$vuetify.breakpoint.name) {
-                    case "xs": return true
-                    default : return false
-                }
-            },
         },
         watch: {
-            clients() {
-                if (this.clients) {
+            klassen() {
+                if (this.klassen) {
                     this.loading = false;
                 }
                 else {
@@ -86,8 +67,8 @@
             }
         },
         methods: {
-            selectedClient(client) {
-                this.$router.push({path: "client", query: {id: client.id}});
+            selectedKlas(klas) {
+                this.$router.push({path: "klas", query: {id: klas.id, naam: klas.naam}});
             }
         },
     }
@@ -96,18 +77,6 @@
 <style scoped>
     .noselect {
         user-select: none;
-    }
-
-    .no {
-        margin-left: calc(50% - 275px);
-        margin-top: 5px;
-        margin-bottom: 5px;
-    }
-
-    .yes {
-        margin-left: 5px;
-        margin-top: 5px;
-        margin-bottom: 5px;
     }
 
 

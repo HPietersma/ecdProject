@@ -18,11 +18,30 @@ const routes = [
   {
     path: '/dashboard',
     name: 'dashboard',
-    component: () => import('../views/DashboardView.vue'),
+    components: {
+      default: () => import('../views/DashboardView.vue'),
+      nav: () => import('../views/nav.vue'),
+    },
     children: [
       {
         path: "casus",
-        component: () => import('../components/casus/Casus.vue')
+        component: () => import('../components/casus/Casus.vue'),
+      },
+      {
+        path: "casusView",
+        component: () => import('../components/casus/CasusView.vue'),
+      },
+      {
+        path: "klassen",
+        component: () => import('../components/supervisor/Klassen.vue')
+      },
+      {
+        path: "klas",
+        component: () => import('../components/supervisor/Klas.vue')
+      },
+      {
+        path: "opdrachten",
+        component: () => import('../components/supervisor/Opdrachten.vue')
       },
       {
         path: "clienten",
@@ -31,7 +50,11 @@ const routes = [
       {
         path: "client",
         component: () => import('../components/clienten/Client.vue')
-      }
+      },
+      {
+        path: "clientForm",
+        component: () => import('../components/clienten/ClientForm.vue'),
+      },
     ]
   },
   {
