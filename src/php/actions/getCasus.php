@@ -34,6 +34,7 @@ if (isset($client_id)) {
     $hulpmiddelen = null;
     $medicatie = null;
     $client = null;
+    $reanimeren = null;
 
     if (isset($client_id)) {
         //AANDOENINGEN
@@ -116,7 +117,19 @@ if (isset($client_id)) {
             $res = mysqli_query($con, $sql);   
             if($res) {
                 while($row = mysqli_fetch_assoc($res)) {
-                $client = $row;
+                    $client = $row;
+                }
+            }
+
+        //REANIMEREN
+            $sql = "SELECT reanimeren
+                    FROM `reanimeren` 
+                    WHERE client_id = '$client_id'
+                ";
+            $res = mysqli_query($con, $sql);   
+            if($res) {
+                while($row = mysqli_fetch_assoc($res)) {
+                    $reanimeren = $row;
                 }
             }
         //
@@ -133,6 +146,7 @@ if (isset($client_id)) {
             "hulpmiddelen"=>$hulpmiddelen,
             "medicatie"=>$medicatie,
             "client"=>$client,
+            "reanimeren"=>$reanimeren,
         ),
     );
 }

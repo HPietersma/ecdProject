@@ -11,15 +11,55 @@
                 v-if="casus"
                 cols="5"
             >
-                {{casus.client.voornaam}}
-                {{casus.client.achternaam}}<br>
-                {{casus.client.geboortedatum}}<br>
-                {{casus.client.adres}}<br>
-                {{casus.client.plaats}}<br>
-                {{casus.client.telefoon}}<br>
+                <table>
+                    <tr>
+                        <td>Voornaam:</td>
+                        <td>{{casus.client.voornaam}}</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 150px;">Achternaam:</td>
+                        <td>{{casus.client.achternaam}}</td>
+                    </tr>
+                    <tr>
+                        <td>Geboortedatum:</td>
+                        <td>{{casus.client.geboortedatum}}</td>
+                    </tr>
+                    <tr>
+                        <td>Adres:</td>
+                        <td>{{casus.client.adres}}</td>
+                    </tr>
+                    <tr>
+                        <td>Plaats:</td>
+                        <td>{{casus.client.plaats}}</td>
+                    </tr>
+                    <tr>
+                        <td style="height: 10px;"></td>
+                    </tr>
+                    <tr>
+                        <td>Reanimeren:</td>
+                        <td v-if="casus.reanimeren.reanimeren == 0">nee</td>
+                        <td v-if="casus.reanimeren.reanimeren == 1">ja</td>
+                    </tr>
+                    <tr>
+                        <td style="height: 10px;"></td>
+                    </tr>
+                    <tr>
+                        <td>Aandoening:</td>
+                        <td>{{casus.aandoeningen[0].aandoening}}</td>
+                    </tr>
+                    <tr>
+                        <td style="height: 10px;"></td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: top;">Allergien</td>
+                        <td><div v-for="allergie in casus.allergien" :key="allergie">{{allergie.allergie}}</div></td>
+                    </tr>
+                </table>
+
             </v-col>
 
         </v-row>
+
         <v-row
             justify="center"
             v-for="(casus, index) in casusAnswers" :key="index"
