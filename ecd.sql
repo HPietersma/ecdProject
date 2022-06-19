@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 08 mei 2022 om 19:20
+-- Gegenereerd op: 19 jun 2022 om 19:55
 -- Serverversie: 10.4.17-MariaDB
 -- PHP-versie: 8.0.0
 
@@ -38,7 +38,7 @@ CREATE TABLE `aandoeningen` (
 --
 
 INSERT INTO `aandoeningen` (`id`, `client_id`, `aandoening`) VALUES
-(10, 109, 'testaandoening');
+(10, 1, 'testaandoening');
 
 -- --------------------------------------------------------
 
@@ -72,7 +72,26 @@ CREATE TABLE `allergien` (
 --
 
 INSERT INTO `allergien` (`id`, `client_id`, `allergie`) VALUES
-(3, 109, 'testallergie');
+(3, 1, 'testallergie');
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `answers`
+--
+
+CREATE TABLE `answers` (
+  `id` int(11) NOT NULL,
+  `casus_id` int(11) NOT NULL,
+  `answer` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `answers`
+--
+
+INSERT INTO `answers` (`id`, `casus_id`, `answer`) VALUES
+(13, 28, 'test');
 
 -- --------------------------------------------------------
 
@@ -91,7 +110,8 @@ CREATE TABLE `behandelplan` (
 --
 
 INSERT INTO `behandelplan` (`id`, `client_id`, `behandelplan`) VALUES
-(2, 109, 'as fsdaf asdf sadf dsfas fd asdf sadfas df');
+(2, 109, 'as fsdaf asdf sadf dsfas fd asdf sadfas df'),
+(3, 1, 'Meneer wil graag leren over wat hij zelf kan doen om zijn zelfredzaamheid te vergroten. Hij heeft gehoord over een online cursus en wil deze graag volgen. ');
 
 -- --------------------------------------------------------
 
@@ -117,16 +137,20 @@ INSERT INTO `casus` (`id`, `naam`, `status`, `user_id`, `client_id`) VALUES
 (19, 'test2', 1, 2, 2),
 (20, 'test2', 1, 3, 2),
 (21, 'test3', 1, 2, 2),
-(22, 'test4', 1, 1, 1),
+(22, 'test4', 2, 1, 1),
 (23, 'test4', 1, 2, 1),
 (24, 'test4', 1, 3, 1),
-(25, 'test5', 1, 1, 1),
+(25, 'test5', 2, 1, 1),
 (26, 'test5', 1, 2, 1),
 (27, 'test5', 1, 3, 1),
 (28, 'test6', 2, 1, 1),
 (29, 'test6', 1, 2, 1),
 (30, 'test6', 1, 3, 1),
-(31, 'test1', 1, 4, 1);
+(31, 'test1', 1, 4, 1),
+(32, 'test2', 1, 4, 1),
+(33, 'test8', 1, 1, 1),
+(34, 'test8', 1, 2, 1),
+(35, 'test8', 1, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -150,8 +174,8 @@ CREATE TABLE `clienten` (
 --
 
 INSERT INTO `clienten` (`id`, `voornaam`, `achternaam`, `geboortedatum`, `telefoon`, `email`, `adres`, `plaats`) VALUES
-(1, 'Jack', 'Sparrow', '01-01-1900', '0611223344', 'jack@sparrow.nl', 'pakjesboot 12', 'zee'),
-(2, 'Davy', 'Jones', '10-10-1500', '', '', '', ''),
+(1, 'Piet', 'Piet', '01-01-1990', '0611223344', 'piet@piet.nl', 'Stationstraat 12', 'Steenwijk'),
+(2, 'Jan', 'Jan', '10-10-1980', '', '', '', ''),
 (109, 'test', 'test', '', '', '', '', '');
 
 -- --------------------------------------------------------
@@ -195,7 +219,7 @@ CREATE TABLE `hulpmiddelen` (
 --
 
 INSERT INTO `hulpmiddelen` (`id`, `client_id`, `hulpmiddel`) VALUES
-(4, 109, 'testhulpmiddel');
+(4, 1, 'testhulpmiddel');
 
 -- --------------------------------------------------------
 
@@ -234,7 +258,27 @@ CREATE TABLE `medicatie` (
 --
 
 INSERT INTO `medicatie` (`id`, `client_id`, `medicatie`, `notitie`) VALUES
-(1, 109, 'testmedicatie', NULL);
+(1, 1, 'testmedicatie', NULL),
+(2, 1, 'test2', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `opdracht`
+--
+
+CREATE TABLE `opdracht` (
+  `id` int(11) NOT NULL,
+  `client_id` int(11) NOT NULL,
+  `opdracht` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `opdracht`
+--
+
+INSERT INTO `opdracht` (`id`, `client_id`, `opdracht`) VALUES
+(1, 1, 'Jij bent stagiaire in de thuiszorg en in het kader van jouw stage ga je samen met meneer de online cursus volgen.');
 
 -- --------------------------------------------------------
 
@@ -253,7 +297,7 @@ CREATE TABLE `reanimeren` (
 --
 
 INSERT INTO `reanimeren` (`id`, `client_id`, `reanimeren`) VALUES
-(89, 109, 1);
+(89, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -329,6 +373,12 @@ ALTER TABLE `allergien`
   ADD KEY `client_id_2` (`client_id`);
 
 --
+-- Indexen voor tabel `answers`
+--
+ALTER TABLE `answers`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexen voor tabel `behandelplan`
 --
 ALTER TABLE `behandelplan`
@@ -371,6 +421,13 @@ ALTER TABLE `klassen`
 -- Indexen voor tabel `medicatie`
 --
 ALTER TABLE `medicatie`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `client_id` (`client_id`);
+
+--
+-- Indexen voor tabel `opdracht`
+--
+ALTER TABLE `opdracht`
   ADD PRIMARY KEY (`id`),
   ADD KEY `client_id` (`client_id`);
 
@@ -419,16 +476,22 @@ ALTER TABLE `allergien`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT voor een tabel `answers`
+--
+ALTER TABLE `answers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
 -- AUTO_INCREMENT voor een tabel `behandelplan`
 --
 ALTER TABLE `behandelplan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT voor een tabel `casus`
 --
 ALTER TABLE `casus`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT voor een tabel `clienten`
@@ -458,6 +521,12 @@ ALTER TABLE `klassen`
 -- AUTO_INCREMENT voor een tabel `medicatie`
 --
 ALTER TABLE `medicatie`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT voor een tabel `opdracht`
+--
+ALTER TABLE `opdracht`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
@@ -523,6 +592,12 @@ ALTER TABLE `hulpmiddelen`
 --
 ALTER TABLE `medicatie`
   ADD CONSTRAINT `medicatie on clienten` FOREIGN KEY (`client_id`) REFERENCES `clienten` (`id`);
+
+--
+-- Beperkingen voor tabel `opdracht`
+--
+ALTER TABLE `opdracht`
+  ADD CONSTRAINT `rol on client` FOREIGN KEY (`client_id`) REFERENCES `clienten` (`id`) ON DELETE CASCADE;
 
 --
 -- Beperkingen voor tabel `reanimeren`

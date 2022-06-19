@@ -1,119 +1,144 @@
 <template>
-<v-container
-    fill-height
-    align-center
->
-    <v-row justify="center">
-        <v-simple-table
-            class="mt-4"
-            v-if="klasWithCasussen"
-        >
-            <template v-slot:default>
-                <thead>
-                    <tr>
-                        <th class="text-left">
-                            Naam
-                        </th>
-                        <th class="text-left" v-for="item in klasWithCasussen.casussen" :key="item">
-                            {{item}}
-                        </th>
-                        <th>
-                            <v-dialog
-                                v-model="dialog"
-                                width="500"
-                            >
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-btn 
-                                        x-small 
-                                        outlined 
-                                        color="primary"
-                                        v-bind="attrs"
-                                        v-on="on"
-                                        v-on:click="getClients()"
-                                    >
-                                        nieuwe casus
-                                    </v-btn>
-                                </template>
-                                <v-card class="pa-2">
-                                    <v-card-text>
-                                        <v-text-field
-                                            label="naam"
-                                            v-model="newCasusData.naam"
-                                        >
-                                        </v-text-field>
-                                        <v-select
-                                            :items="clients"
-                                            item-text="id"
-                                            label="Client"
-                                            solo
-                                            v-model="newCasusData.client_id"
-                                        >
-                                          <template v-slot:item="{item}">
-                                                {{item.voornaam}}
-                                            </template>    
-                                            <template v-slot:selection="{item}">
-                                                {{item.voornaam}}
-                                            </template>
-                                        </v-select>
-                                    </v-card-text>
-                                    <v-divider></v-divider>
-                                    <v-card-actions>
-                                        <v-spacer></v-spacer>
-                                        <v-btn
+<div>
+    <v-container
+        fill-height
+        align-center
+        :class="{blur : BshowModal}"
+    >
+        <v-row justify="center">
+            <v-simple-table
+                class="mt-4"
+                v-if="klasWithCasussen"
+            >
+                <template v-slot:default>
+                    <thead>
+                        <tr>
+                            <th class="text-left">
+                                Naam
+                            </th>
+                            <th class="text-left" v-for="item in klasWithCasussen.casussen" :key="item">
+                                {{item}}
+                            </th>
+                            <th>
+                                <v-dialog
+                                    v-model="dialog"
+                                    width="500"
+                                >
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-btn 
+                                            x-small 
+                                            outlined 
                                             color="primary"
-                                            text
-                                            v-on:click="createCasus()"
-                                            @click="dialog = false"
+                                            v-bind="attrs"
+                                            v-on="on"
+                                            v-on:click="getClients()"
                                         >
-                                            Aanmaken
+                                            nieuwe casus
                                         </v-btn>
-                                    </v-card-actions>
-                                    {{newCasusData}}
-                                </v-card>
-                            </v-dialog>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(item, index) in klasWithCasussen.klas" :key="index">
-                        <td>
-                            {{item.user.voornaam}} 
-                            {{item.user.achternaam}}
-                        </td>
-                        <td v-for="(casus, index) in klasWithCasussen.klas[index].casussen" :key="index">
-                            <div
-                                class="status grey lighten-3"
-                                v-if="casus.status == 0"
-                            >
-                            </div>
-                            <div
-                                class="status blue lighten-3"
-                                v-if="casus.status == 1"
-                            >
-                            </div>
-                            <div
-                                class="status purple lighten-3"
-                                v-if="casus.status == 2"
-                            >
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </template>
-        </v-simple-table>
-    </v-row>
-</v-container>
+                                    </template>
+                                    <v-card class="pa-2">
+                                        <v-card-text>
+                                            <v-text-field
+                                                label="naam"
+                                                v-model="newCasusData.naam"
+                                            >
+                                            </v-text-field>
+                                            <v-select
+                                                :items="clients"
+                                                item-text="id"
+                                                label="Client"
+                                                solo
+                                                v-model="newCasusData.client_id"
+                                            >
+                                            <template v-slot:item="{item}">
+                                                    {{item.voornaam}}
+                                                </template>    
+                                                <template v-slot:selection="{item}">
+                                                    {{item.voornaam}}
+                                                </template>
+                                            </v-select>
+                                        </v-card-text>
+                                        <v-divider></v-divider>
+                                        <v-card-actions>
+                                            <v-spacer></v-spacer>
+                                            <v-btn
+                                                color="primary"
+                                                text
+                                                v-on:click="createCasus()"
+                                                @click="dialog = false"
+                                            >
+                                                Aanmaken
+                                            </v-btn>
+                                        </v-card-actions>
+                                        {{newCasusData}}
+                                    </v-card>
+                                </v-dialog>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item, index) in klasWithCasussen.klas" :key="index">
+                            <td>
+                                {{item.user.voornaam}} 
+                                {{item.user.achternaam}}
+                            </td>
+                            <td v-for="(casus, index) in klasWithCasussen.klas[index].casussen" :key="index" v-on:click="showModal(casus.id)">
+                                <div
+                                    class="status grey lighten-3"
+                                    v-if="casus.status == 0"
+                                >
+                                </div>
+                                <div
+                                    class="status blue lighten-3"
+                                    v-if="casus.status == 1"
+                                >
+                                </div>
+                                <div
+                                    class="status purple lighten-3"
+                                    v-if="casus.status == 2"
+                                >
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </template>
+            </v-simple-table>
+        </v-row>
+    </v-container>
+    <v-card class="casusView" v-if="BshowModal" style="overflow-y: scroll; overflow-x:">
+        <div style="display: flex; justify-content: end;">
+            <v-spacer/>
+            <v-btn
+                x-small
+                tile
+                color="error"
+                v-on:click="hideModal()"
+            >
+                <b>X</b>
+            </v-btn>
+        </div>
+        <CasusView :id="casusID"/>
+    </v-card>
+
+</div>
 </template>
 <script>
+import CasusView from "./showCasus.vue";
+
 export default {
     name: "KlasComponent",
+    components:{
+        CasusView
+    },
 
     data() {
         return {
             dialog: false,
             emptyTable: [],
             loading: true,
-            newCasusData: {"naam": null, "client_id": null, "klas_id": this.$route.query.id,}
+            newCasusData: {"naam": null, "client_id": null, "klas_id": this.$route.query.id,},
+            casusID: null,
+            BshowModal: true,
         }
     },
     created() {
@@ -174,6 +199,13 @@ export default {
         getClients() {
             this.$store.dispatch("fetchClients");
         },
+        showModal(casus) {
+            this.casusID = casus;
+            this.BshowModal = true;
+        },
+        hideModal() {
+            this.BshowModal = false;
+        }
     },
 }
 
@@ -213,6 +245,21 @@ export default {
     background-color: red;
 }
 
+.casusView {
+    background-color: white;
+    position: absolute;
+    top: 100px;
+    height: 80vh;
+    width: 1000px;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.blur {
+    filter: blur(5px);
+}
 
 
 </style>

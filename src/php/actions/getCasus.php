@@ -35,6 +35,7 @@ if (isset($client_id)) {
     $medicatie = null;
     $client = null;
     $reanimeren = null;
+    $opdracht = null;
 
     if (isset($client_id)) {
         //AANDOENINGEN
@@ -132,6 +133,18 @@ if (isset($client_id)) {
                     $reanimeren = $row;
                 }
             }
+
+        //OPDRACHT
+            $sql = "SELECT opdracht
+                    FROM `opdracht` 
+                    WHERE client_id = '$client_id'
+                ";
+            $res = mysqli_query($con, $sql);   
+            if($res) {
+                while($row = mysqli_fetch_assoc($res)) {
+                    $opdracht = $row;
+                }
+            }
         //
     }
 
@@ -147,6 +160,7 @@ if (isset($client_id)) {
             "medicatie"=>$medicatie,
             "client"=>$client,
             "reanimeren"=>$reanimeren,
+            "opdracht"=>$opdracht,
         ),
     );
 }
