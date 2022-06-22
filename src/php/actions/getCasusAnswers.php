@@ -12,7 +12,7 @@ $casusAnswers = null;
 if (isset($data['casus_id'])) {
     $casus_id = $data['casus_id'];
 
-    $sql = "SELECT answer
+    $sql = "SELECT id, answer, commentaar
             FROM `answers` 
             WHERE casus_id = '$casus_id'
         ";

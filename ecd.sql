@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 19 jun 2022 om 19:55
--- Serverversie: 10.4.17-MariaDB
--- PHP-versie: 8.0.0
+-- Gegenereerd op: 22 jun 2022 om 18:16
+-- Serverversie: 10.4.21-MariaDB
+-- PHP-versie: 8.0.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -83,15 +83,18 @@ INSERT INTO `allergien` (`id`, `client_id`, `allergie`) VALUES
 CREATE TABLE `answers` (
   `id` int(11) NOT NULL,
   `casus_id` int(11) NOT NULL,
-  `answer` varchar(255) NOT NULL
+  `answer` varchar(255) NOT NULL,
+  `commentaar` varchar(255) NOT NULL,
+  `supervisor` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `answers`
 --
 
-INSERT INTO `answers` (`id`, `casus_id`, `answer`) VALUES
-(13, 28, 'test');
+INSERT INTO `answers` (`id`, `casus_id`, `answer`, `commentaar`, `supervisor`) VALUES
+(13, 28, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam dictum luctus convallis. Donec tempor elit at eros ultrices tincidunt. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi aliquet ipsum sit amet lacin', 'test', 0),
+(15, 28, 'test', '', 1);
 
 -- --------------------------------------------------------
 
@@ -479,7 +482,7 @@ ALTER TABLE `allergien`
 -- AUTO_INCREMENT voor een tabel `answers`
 --
 ALTER TABLE `answers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT voor een tabel `behandelplan`

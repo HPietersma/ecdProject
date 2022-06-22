@@ -6,8 +6,8 @@ import axios from 'axios'
 Vue.use(Vuex)
 
 //axios.defaults.baseURL = "http://localhost:80/ecdProject/src/php/"
-//axios.defaults.baseURL = "http://localhost:80/htdocs/ecdProject/src/php"
-axios.defaults.baseURL = "http://localhost:81/ecd/src/php"
+axios.defaults.baseURL = "http://localhost:80/htdocs/ecdProject/src/php"
+//axios.defaults.baseURL = "http://localhost:81/ecd/src/php"
 axios.defaults.withCredentials = true
 
 export default new Vuex.Store({
@@ -94,6 +94,9 @@ export default new Vuex.Store({
         state.casusAnswers = [];
       }
     },
+    setUpdatedCasusAnswer(state, answer) {
+      state.casusAnswers.filter(i => i.id == answer.id)[0].commentaar = answer.commentaar
+    }
   },
   actions: {
     login({ commit }, loginData) {
@@ -279,6 +282,14 @@ export default new Vuex.Store({
         console.log(err)
       })
     },
+    updateCasusComment({ commit }, comment) {
+      axios.post("?action=updateCasusComment", comment)
+        .then (response => {
+          console.log(response.data);
+          commit("setUpdatedCasusAnswer", response.data.data);
+          commit("setNotificationMessage", response.data.meta);
+        })
+    }
   },
 
   modules: {

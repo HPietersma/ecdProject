@@ -1,12 +1,8 @@
 <template>
-<div>
-    <v-row
-        justify="center"
-    >
-        <v-col 
+<div class="px-10 pb-10">
+        <div
             class="infoPanel elevation-1 mt-5 pa-2 blue lighten-5 rounded mb-5"
             v-if="casus"
-            cols="10"
         >
             <table style="border-collapse: collapse; width: 100%;">
                 <tr>
@@ -104,21 +100,76 @@
                 </tr>
             </table>
 
-        </v-col>
+        </div>
 
-    </v-row>
-
-    <v-row
+    <div
         justify="center"
         v-for="(casus, index) in casusAnswers" :key="index"
+        class="elevation-1 answersDiv rounded mt-3"
+    >   
+        <table class="text-left">
+            <tr>
+                <td class="pa-2" style="width: 100%;">{{casus.answer}}</td>
+                <td class="pa-2" style="vertical-align: top;">
+                    <v-dialog
+                        v-model="dialog"
+                        width="500"
+                    >
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-btn 
+                                icon
+                                v-bind="attrs"
+                                v-on="on"
+                                v-on:click="selectedAnswer(casus)"
+                            >
+                                <v-icon>mdi-clipboard-edit-outline</v-icon>
+                            </v-btn>
+                        </template>
+                        <v-card class="pa-2">
+                            <v-card-text>
+                                <v-textarea
+                                    v-model="comment.commentaar"
+                                >
+                                </v-textarea>
+                            </v-card-text>
+                            <v-divider></v-divider>
+                            <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn
+                                    color="primary"
+                                    text
+                                    @click="dialog = false"
+                                    v-on:click="updateCasusComment()"
+                                >
+                                    Opslaan
+                                </v-btn>
+                            </v-card-actions>
+                        </v-card>
+                    </v-dialog>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div
+        class="blue lighten-4 mt-10 mb-2 rounded pa-4"
     >
-        <v-col
-            cols="5"
-            class="answers elevation-1 mt-2 lighten-5 rounded text-left"
-        >
-            {{casus.answer}}
-        </v-col>
-    </v-row>
+        <div>
+            <v-textarea
+                background-color="white"
+                solo
+                v-model="answer"
+            >
+            </v-textarea>
+
+            <v-btn
+                color="blue white--text"
+                v-on:click="saveAnswer()"
+            >
+                Opslaan
+            </v-btn>
+        </div>
+    </div>
 </div>
 </template>
 <script>
@@ -129,7 +180,12 @@
 
         data() {
             return {
-                
+                dialog: false,
+                comment: {
+                    commentaar: "",
+                    id: null,
+                },
+                answer: null,
             }
 
         },
@@ -144,12 +200,23 @@
             casusAnswers() {
                 return this.$store.state.casusAnswers;
             },
+
         },
         watch: {
             
         },
         methods: {
-
+            selectedAnswer(casus) {
+                this.comment.commentaar = casus.commentaar;
+                this.comment.id = casus.id;
+            },
+            updateCasusComment() {
+                this.$store.dispatch("updateCasusComment", this.comment);
+                console.log(this.$store.state.casusAnswers);
+            },
+            saveAnswer() {
+                this.$store.dispatch("createCasusAnswer", {"casusAnswer": {"answer": this.answer, "casus_id": this.id, "supervisor": 1}});
+            }
         },
     }
 
@@ -164,7 +231,7 @@ table {
     text-align: left;
 }
 
-.answers {
+.answersDiv {
     background-color: white;
 }
 

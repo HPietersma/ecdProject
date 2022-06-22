@@ -156,7 +156,8 @@
             return {
                 casusAnswer: {
                     "answer": null, 
-                    "casus_id": this.$route.query.id
+                    "casus_id": this.$route.query.id,
+                    "supervisor": 0,
                 },
             }
         },

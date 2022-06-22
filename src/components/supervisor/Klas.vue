@@ -138,7 +138,7 @@ export default {
             loading: true,
             newCasusData: {"naam": null, "client_id": null, "klas_id": this.$route.query.id,},
             casusID: null,
-            BshowModal: true,
+            BshowModal: false,
         }
     },
     created() {
@@ -246,7 +246,7 @@ export default {
 }
 
 .casusView {
-    background-color: white;
+    background-color: rgb(240, 240, 240);
     position: absolute;
     top: 100px;
     height: 80vh;
