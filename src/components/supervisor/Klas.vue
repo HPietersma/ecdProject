@@ -70,7 +70,6 @@
                                                 Aanmaken
                                             </v-btn>
                                         </v-card-actions>
-                                        {{newCasusData}}
                                     </v-card>
                                 </v-dialog>
                             </th>
@@ -89,13 +88,28 @@
                                 >
                                 </div>
                                 <div
-                                    class="status blue lighten-3"
+                                    class="status blue lighten-4"
                                     v-if="casus.status == 1"
                                 >
                                 </div>
                                 <div
-                                    class="status purple lighten-3"
+                                    class="status blue lighten"
                                     v-if="casus.status == 2"
+                                >
+                                </div>
+                                <div
+                                    class="status blue darken-4"
+                                    v-if="casus.status == 3"
+                                >
+                                </div>
+                                <div
+                                    class="status orange"
+                                    v-if="casus.status == 4"
+                                >
+                                </div>
+                                <div
+                                    class="status green"
+                                    v-if="casus.status == 5"
                                 >
                                 </div>
                             </td>

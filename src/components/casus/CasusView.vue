@@ -118,8 +118,51 @@
             <v-col
                 cols="5"
                 class="answers elevation-1 mt-2 lighten-5 rounded text-left"
+                :class="{ supervisor : casus.supervisor == 1}"
             >
-                {{casus.answer}}
+                <table class="text-left">
+                    <tr>
+                        <td 
+                            class="pa-2" 
+                            style="width: 100%;"
+                        >
+                            {{casus.answer}}
+                        </td>
+                        <td class="pa-2" style="vertical-align: top;" v-if="casus.commentaar">
+                            <v-dialog
+                                v-model="dialog"
+                                width="500"
+                            >
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-btn 
+                                        icon
+                                        v-bind="attrs"
+                                        v-on="on"
+                                        v-on:click="showComment(casus)"
+                                    >
+                                        <v-icon color="orange">mdi-alert-circle-outline</v-icon>
+                                    </v-btn>
+                                </template>
+                                <v-card class="pa-2">
+                                    <v-card-text>
+                                       {{commentaar}}
+                                    </v-card-text>
+                                    <v-divider></v-divider>
+                                    <v-card-actions>
+                                        <v-spacer></v-spacer>
+                                        <v-btn
+                                            color="primary"
+                                            text
+                                            @click="dialog = false"
+                                        >
+                                            sluiten
+                                        </v-btn>
+                                    </v-card-actions>
+                                </v-card>
+                            </v-dialog>
+                        </td>
+                    </tr>
+                </table>
             </v-col>
         </v-row>
         <v-row 
@@ -127,7 +170,7 @@
         >
             <v-col
                 cols="5"
-                class="blue lighten-4 mt-2 mb-2 rounded"
+                class="blue lighten-4 mt-10 mb-2 rounded"
             >
                 <div>
                     <v-textarea
@@ -159,6 +202,8 @@
                     "casus_id": this.$route.query.id,
                     "supervisor": 0,
                 },
+                dialog: false,
+                commentaar: false,
             }
         },
         created() {
@@ -181,7 +226,11 @@
                 if (this.casusAnswer.answer) {
                     this.$store.dispatch("createCasusAnswer", {"casusAnswer": this.casusAnswer});
                 }
-            }
+            },
+            showComment(casus) {
+                this.commentaar = casus.commentaar;
+
+            },
         },
     }
 
@@ -203,6 +252,10 @@
 
 table tr td {
     padding-left: 2px;
+}
+
+.supervisor {
+    background-color: #E3F2FD;
 }
 
 

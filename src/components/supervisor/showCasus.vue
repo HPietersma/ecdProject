@@ -106,10 +106,16 @@
         justify="center"
         v-for="(casus, index) in casusAnswers" :key="index"
         class="elevation-1 answersDiv rounded mt-3"
+        :class="{ supervisor : casus.supervisor == 1}"
     >   
         <table class="text-left">
             <tr>
-                <td class="pa-2" style="width: 100%;">{{casus.answer}}</td>
+                <td 
+                    class="pa-2" 
+                    style="width: 100%;"
+                >
+                    {{casus.answer}}
+                </td>
                 <td class="pa-2" style="vertical-align: top;">
                     <v-dialog
                         v-model="dialog"
@@ -170,6 +176,18 @@
             </v-btn>
         </div>
     </div>
+
+    <v-btn
+        block
+        color="green"
+        dark
+        class="mt-5"
+        v-on:click="completeCasus()"
+    >
+        casus goedkeuren
+    </v-btn>
+
+
 </div>
 </template>
 <script>
@@ -184,6 +202,7 @@
                 comment: {
                     commentaar: "",
                     id: null,
+                    casus_id: null,
                 },
                 answer: null,
             }
@@ -209,6 +228,7 @@
             selectedAnswer(casus) {
                 this.comment.commentaar = casus.commentaar;
                 this.comment.id = casus.id;
+                this.comment.casus_id = casus.casus_id;
             },
             updateCasusComment() {
                 this.$store.dispatch("updateCasusComment", this.comment);
@@ -216,6 +236,9 @@
             },
             saveAnswer() {
                 this.$store.dispatch("createCasusAnswer", {"casusAnswer": {"answer": this.answer, "casus_id": this.id, "supervisor": 1}});
+            },
+            completeCasus() {
+                this.$store.dispatch("updateCasusStatus5", {"casus_id": this.id});
             }
         },
     }
@@ -241,6 +264,10 @@ table {
 
 table tr td {
     padding-left: 2px;
+}
+
+.supervisor {
+    background-color: #E3F2FD;
 }
 
 

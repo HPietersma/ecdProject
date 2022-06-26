@@ -78,10 +78,10 @@
                 return this.$store.state.casussen;
             },
             casusAfgerond() {
-                return this.$store.state.casussen.data.filter(i => i.status == "3")
+                return this.$store.state.casussen.data.filter(i => i.status == "5")
             },
             casusActief() {
-                return this.$store.state.casussen.data.filter(i => i.status == "2")
+                return this.$store.state.casussen.data.filter(i => i.status == "2" || i.status == "3" || i.status == "4")
             },
             casusNieuw() {
                 return this.$store.state.casussen.data.filter(i => i.status == "1")

@@ -12,10 +12,11 @@ $casusAnswers = null;
 if (isset($data['casus_id'])) {
     $casus_id = $data['casus_id'];
 
-    $sql = "SELECT id, answer, commentaar
-            FROM `answers` 
-            WHERE casus_id = '$casus_id'
-        ";
+    $sql = 
+        "SELECT id, answer, commentaar, supervisor, casus_id
+        FROM `answers` 
+        WHERE casus_id = '$casus_id'"
+    ;
     $res = mysqli_query($con, $sql);   
     if($res) {
         while($row = mysqli_fetch_assoc($res)) {
