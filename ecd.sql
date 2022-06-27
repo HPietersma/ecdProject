@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 22 jun 2022 om 18:16
--- Serverversie: 10.4.21-MariaDB
--- PHP-versie: 8.0.12
+-- Gegenereerd op: 27 jun 2022 om 10:09
+-- Serverversie: 10.4.17-MariaDB
+-- PHP-versie: 8.0.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -93,8 +93,15 @@ CREATE TABLE `answers` (
 --
 
 INSERT INTO `answers` (`id`, `casus_id`, `answer`, `commentaar`, `supervisor`) VALUES
-(13, 28, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam dictum luctus convallis. Donec tempor elit at eros ultrices tincidunt. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi aliquet ipsum sit amet lacin', 'test', 0),
-(15, 28, 'test', '', 1);
+(13, 28, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam dictum luctus convallis. Donec tempor elit at eros ultrices tincidunt. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi aliquet ipsum sit amet lacin', 'test2', 0),
+(15, 28, 'test', '', 1),
+(19, 33, 'test', 'test', 0),
+(20, 33, 'test', '', 1),
+(21, 33, 'test', 'test', 0),
+(22, 28, 'test', '', 1),
+(23, 33, 'test', '', 0),
+(24, 33, 'test', 'test', 0),
+(25, 36, 'dit dit en dit dit', 'laksdf', 0);
 
 -- --------------------------------------------------------
 
@@ -141,19 +148,22 @@ INSERT INTO `casus` (`id`, `naam`, `status`, `user_id`, `client_id`) VALUES
 (20, 'test2', 1, 3, 2),
 (21, 'test3', 1, 2, 2),
 (22, 'test4', 2, 1, 1),
-(23, 'test4', 1, 2, 1),
+(23, 'test4', 2, 2, 1),
 (24, 'test4', 1, 3, 1),
 (25, 'test5', 2, 1, 1),
 (26, 'test5', 1, 2, 1),
 (27, 'test5', 1, 3, 1),
-(28, 'test6', 2, 1, 1),
+(28, 'test6', 3, 1, 1),
 (29, 'test6', 1, 2, 1),
 (30, 'test6', 1, 3, 1),
 (31, 'test1', 1, 4, 1),
 (32, 'test2', 1, 4, 1),
-(33, 'test8', 1, 1, 1),
+(33, 'test8', 5, 1, 1),
 (34, 'test8', 1, 2, 1),
-(35, 'test8', 1, 3, 1);
+(35, 'test8', 1, 3, 1),
+(36, 'casus 1', 5, 1, 1),
+(37, 'casus 1', 2, 2, 1),
+(38, 'casus 1', 1, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -482,7 +492,7 @@ ALTER TABLE `allergien`
 -- AUTO_INCREMENT voor een tabel `answers`
 --
 ALTER TABLE `answers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT voor een tabel `behandelplan`
@@ -494,7 +504,7 @@ ALTER TABLE `behandelplan`
 -- AUTO_INCREMENT voor een tabel `casus`
 --
 ALTER TABLE `casus`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT voor een tabel `clienten`
